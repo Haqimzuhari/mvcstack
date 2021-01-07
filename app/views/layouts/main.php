@@ -30,12 +30,16 @@
             [x-cloak] { display: none; }
         </style>
 
-        <title><?=$this->title ?? TITLE?></title>
+        <title><?= $this->title ?? TITLE ?></title>
     </head>
 
     <body>
+        
         @content
+
         <?php Flash::show() ?>
+
         <script src="<?=asset('js/scripts.js')?>"></script>
+        
     </body>
 </html>

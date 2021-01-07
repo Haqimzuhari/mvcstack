@@ -80,6 +80,7 @@ class Register extends Controller
             return redirect('login');
         }
         
+        $this->title = "Register &mdash; " . TITLE;
         $this->view('register');
     }
 }

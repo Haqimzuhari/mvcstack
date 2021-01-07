@@ -39,7 +39,7 @@
 
 
     <body class="subpixel-antialiased tracking-widest bg-gray-50">
-
+        
         <div>
             @content
         </div>
