@@ -11,7 +11,7 @@
         <meta name="robots" content="index, follow" />
 
         <!-- Tailwind CSS -->
-        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
 
         <!-- Fontawesome -->
         <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
@@ -33,7 +33,7 @@
         <title><?=$this->title ?? TITLE?></title>
     </head>
 
-    <body class="subpixel-antialiased tracking-widest">
+    <body>
         @content
         <?php Flash::show() ?>
         <script src="<?=asset('js/scripts.js')?>"></script>
