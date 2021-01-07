@@ -11,14 +11,14 @@
 
             <div class="flex items-start gap-2 text-sm">
                 <p>NEW USER?</p>
-                <a href="<?=route('register')?>" class="transition duration-300 ease-in-out font-semibold text-indigo-400 hover:text-indigo-500 cursor-pointer focus:outline-none border-b-4 border-transparent hover:border-indigo-400">
+                <a href="<?=route('register')?>" class="stack-link primary">
                     CREATE NEW ACCOUNT
                 </a>
             </div>
 
             <div class="flex items-start gap-2 text-sm">
                 <p>HAVE AN ACCOUNT?</p>
-                <a href="<?=route('login')?>" class="transition duration-300 ease-in-out font-semibold text-indigo-400 hover:text-indigo-500 cursor-pointer focus:outline-none border-b-4 border-transparent hover:border-indigo-400">
+                <a href="<?=route('login')?>" class="stack-link primary">
                     LOGIN NOW
                 </a>
             </div>
