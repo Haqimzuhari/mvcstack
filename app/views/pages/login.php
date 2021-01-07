@@ -1,23 +1,23 @@
-<section class="min-h-screen flex items-center justify-center">
+<section class="flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-sm flex flex-col p-10 bg-white shadow-sm rounded-lg">
+    <div class="flex flex-col w-full max-w-sm p-10 bg-white rounded-lg shadow-sm">
 
         <div class="flex flex-col gap-5">
 
             <div>
-                <a href="<?= route('') ?>" class="stack-link secondary text-xs">
+                <a href="<?= route('') ?>" class="text-xs stack-link secondary">
                     Cancel
                 </a>
             </div>
 
-            <h1 class="font-bold text-xl">LOGIN NOW</h1>
+            <h1 class="text-xl font-bold">LOGIN NOW</h1>
 
             <div class="flex items-start gap-2 text-xs">
 
                 <p>NEW USER?</p>
 
                 <a href="<?=route('register')?>" class="stack-link primary">
-                    CREATE NEW ACCOUNT
+                    REGISTER NEW ACCOUNT
                 </a>
                 
             </div>
@@ -32,9 +32,9 @@
 
                 <div class="flex flex-col gap-1">
                     <label for="password" class="stack-form-label">PASSWORD</label>
-                    <span class="w-full relative">
+                    <span class="relative w-full">
                         <input name="password" id="password" placeholder="" class="stack-form primary" x-bind:type="password?'text':'password'"/>
-                        <span class="stack-button-basic absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-400 hover:text-gray-600" x-on:click="password=!password">
+                        <span class="absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-400 stack-button-basic hover:text-gray-600" x-on:click="password=!password">
                             <i class="far" x-bind:class="{'fa-eye':!password, 'fa-eye-slash':password}"></i>
                         </span>
                     </span>
