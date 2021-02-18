@@ -75,11 +75,12 @@ class Register extends Controller
                         Flash::set('warning', 'Password not identical.');
                     }
                 }
+
+                return redirect('login');
             }
-            
-            return redirect('login');
         }
         
+        $this->title = "Register &mdash; " . TITLE;
         $this->view('register');
     }
 }
