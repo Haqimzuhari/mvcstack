@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-5">
 
             <div>
-                <a href="<?= route('') ?>" class="text-xs stack-link secondary">
+                <a href="<?= route('') ?>" class="text-xs link secondary">
                     Cancel
                 </a>
             </div>
@@ -16,7 +16,7 @@
 
                 <p>NEW USER?</p>
 
-                <a href="<?=route('register')?>" class="stack-link primary">
+                <a href="<?=route('register')?>" class="link primary">
                     REGISTER NEW ACCOUNT
                 </a>
                 
@@ -26,22 +26,22 @@
             <form class="flex flex-col gap-5" method="post" action="<?=route('login')?>" x-data="{password:false}">
 
                 <div class="flex flex-col gap-1">
-                    <label for="email" class="stack-form-label">EMAIL</label>
-                    <input type="email" name="email" id="email" placeholder="" class="stack-form primary" autofocus/>
+                    <label for="email" class="input-label">EMAIL</label>
+                    <input type="email" name="email" id="email" placeholder="" class="form-input primary" autofocus/>
                 </div>
 
                 <div class="flex flex-col gap-1">
-                    <label for="password" class="stack-form-label">PASSWORD</label>
+                    <label for="password" class="input-label">PASSWORD</label>
                     <span class="relative w-full">
-                        <input name="password" id="password" placeholder="" class="stack-form primary" x-bind:type="password?'text':'password'"/>
-                        <span class="absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-400 stack-button-basic hover:text-gray-600" x-on:click="password=!password">
+                        <input name="password" id="password" placeholder="" class="form-input primary" x-bind:type="password?'text':'password'"/>
+                        <span class="absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-400 cursor-pointer hover:text-gray-600 focus:outline-none" x-on:click="password=!password">
                             <i class="far" x-bind:class="{'fa-eye':!password, 'fa-eye-slash':password}"></i>
                         </span>
                     </span>
                 </div>
 
                 <div>
-                    <button type="submit" name="login" class="stack-button primary">
+                    <button type="submit" name="login" class="button primary">
                         Login
                     </button>
                 </div>

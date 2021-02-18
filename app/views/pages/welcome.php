@@ -1,6 +1,6 @@
-<section class="min-h-screen flex items-center">
+<section class="flex items-center min-h-screen">
 
-    <div class="w-full max-w-2xl flex flex-col px-32 py-5">
+    <div class="flex flex-col w-full max-w-2xl px-32 py-5">
 
         <div class="flex flex-col gap-5">
             
@@ -11,14 +11,14 @@
 
             <div class="flex items-start gap-2 text-sm">
                 <p>NEW USER?</p>
-                <a href="<?=route('register')?>" class="stack-link primary">
+                <a href="<?=route('register')?>" class="link primary">
                     CREATE NEW ACCOUNT
                 </a>
             </div>
 
             <div class="flex items-start gap-2 text-sm">
                 <p>HAVE AN ACCOUNT?</p>
-                <a href="<?=route('login')?>" class="stack-link primary">
+                <a href="<?=route('login')?>" class="link primary">
                     LOGIN NOW
                 </a>
             </div>
