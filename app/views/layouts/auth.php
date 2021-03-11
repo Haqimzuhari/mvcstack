@@ -11,6 +11,7 @@
         <meta name="description" content="PHP MVC Framework by Plainstack" />
         <meta name="author" content="Plainstack" />
         <meta name="robots" content="index, follow" />
+        <link rel="icon" href="<?= asset('icons/php-icon.png') ?>" type="image/gif" sizes="16x16"> 
 
         <!-- Tailwind CSS -->
         <link href="<?=asset('css/tailwind.css')?>" rel="stylesheet">

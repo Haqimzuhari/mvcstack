@@ -15,6 +15,12 @@ function app()
     return domain() . root();
 }
 
+function job($job)
+{
+    $job = str_replace('/', DS, str_replace('.', DS, $job)) . ".php";
+    return ROOT . DS . 'app' . DS . 'jobs' . DS . $job;
+}
+
 function route($target)
 {
     $target = str_replace('.', '/', $target);
