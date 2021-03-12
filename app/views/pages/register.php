@@ -47,7 +47,7 @@
                     <span class="relative w-full">
                         <input type="password" name="password" id="password" class="form-input primary" x-bind:type="password?'text':'password'" />
                         <span class="absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-400 transition duration-300 ease-in-out cursor-pointer hover:text-gray-600 focus:outline-none" x-on:click="password=!password">
-                            <i class="far" x-bind:class="{'fa-eye':!password, 'fa-eye-slash':password}"></i>
+                            <i x-bind:class="{'las la-eye':!password, 'las la-low-vision':password}"></i>
                         </span>
                     </span>
                     </span>
@@ -58,7 +58,7 @@
                     <span class="relative w-full">
                         <input type="password" name="confirm_password" id="confirm_password" class="form-input primary" x-bind:type="confirm?'text':'password'" />
                         <span class="absolute inset-y-0 right-0 flex items-center justify-center w-10 text-gray-400 transition duration-300 ease-in-out cursor-pointer hover:text-gray-600 focus:outline-none" x-on:click="confirm=!confirm">
-                            <i class="far" x-bind:class="{'fa-eye':!confirm, 'fa-eye-slash':confirm}"></i>
+                            <i x-bind:class="{'las la-eye':!confirm, 'las la-low-vision':confirm}"></i>
                         </span>
                     </span>
                     </span>

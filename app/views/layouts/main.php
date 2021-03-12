@@ -9,23 +9,24 @@
         <meta name="description" content="PHP MVC Framework by Plainstack" />
         <meta name="author" content="Plainstack" />
         <meta name="robots" content="index, follow" />
-        <link rel="icon" href="<?= asset('icons/php-icon.png') ?>" type="image/gif" sizes="16x16"> 
 
-        <!-- Tailwind CSS -->
+        <!-- Favicon -->
+        <link href="<?= asset('icons/php-icon.png') ?>" rel="icon" type="image/gif" sizes="16x16"> 
+
+        <!-- Styles -->
         <link href="<?=asset('css/tailwind.css')?>" rel="stylesheet">
 
-        <!-- Fontawesome -->
-        <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+        <!-- Icons -->
+        <link href="<?= asset('icons/css/line-awesome.min.css')?>" rel="stylesheet">
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
-        
-        <!-- Styles CSS -->
+        <link href="<?=asset('css/fonts.css')?>" rel="stylesheet">
+
+        <!-- Custom -->
         <link href="<?=asset('css/styles.css')?>" rel="stylesheet">
         
         <!-- Alpine JS -->
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+        <script src="<?=asset('js/alpine-cdn.js')?>" defer></script>
 
         <style>
             [x-cloak] { display: none; }
