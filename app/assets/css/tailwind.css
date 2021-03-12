@@ -366,7 +366,7 @@ ul {
  */
 
 html {
-  font-family: Ubuntu; /* 1 */
+  font-family: poppins; /* 1 */
   line-height: 1.5; /* 2 */
 }
 
@@ -11634,7 +11634,11 @@ video {
 }
 
 .font-sans {
-  font-family: Ubuntu;
+  font-family: poppins;
+}
+
+.font-serif {
+  font-family: playfairdisplay;
 }
 
 .font-thin {
@@ -18873,7 +18877,6 @@ video {
 }
 
 .sticky {
-  position: -webkit-sticky;
   position: sticky;
 }
 
@@ -43904,7 +43907,11 @@ body, html {
   }
 
   .sm\:font-sans {
-    font-family: Ubuntu;
+    font-family: poppins;
+  }
+
+  .sm\:font-serif {
+    font-family: playfairdisplay;
   }
 
   .sm\:font-thin {
@@ -51143,7 +51150,6 @@ body, html {
   }
 
   .sm\:sticky {
-    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -75898,7 +75904,11 @@ body, html {
   }
 
   .md\:font-sans {
-    font-family: Ubuntu;
+    font-family: poppins;
+  }
+
+  .md\:font-serif {
+    font-family: playfairdisplay;
   }
 
   .md\:font-thin {
@@ -83137,7 +83147,6 @@ body, html {
   }
 
   .md\:sticky {
-    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -107892,7 +107901,11 @@ body, html {
   }
 
   .lg\:font-sans {
-    font-family: Ubuntu;
+    font-family: poppins;
+  }
+
+  .lg\:font-serif {
+    font-family: playfairdisplay;
   }
 
   .lg\:font-thin {
@@ -115131,7 +115144,6 @@ body, html {
   }
 
   .lg\:sticky {
-    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -139886,7 +139898,11 @@ body, html {
   }
 
   .xl\:font-sans {
-    font-family: Ubuntu;
+    font-family: poppins;
+  }
+
+  .xl\:font-serif {
+    font-family: playfairdisplay;
   }
 
   .xl\:font-thin {
@@ -147125,7 +147141,6 @@ body, html {
   }
 
   .xl\:sticky {
-    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -171880,7 +171895,11 @@ body, html {
   }
 
   .\32xl\:font-sans {
-    font-family: Ubuntu;
+    font-family: poppins;
+  }
+
+  .\32xl\:font-serif {
+    font-family: playfairdisplay;
   }
 
   .\32xl\:font-thin {
@@ -179119,7 +179138,6 @@ body, html {
   }
 
   .\32xl\:sticky {
-    position: -webkit-sticky;
     position: sticky;
   }
 
