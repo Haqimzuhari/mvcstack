@@ -2,12 +2,34 @@
 
 class Component
 {
-    public static function use($name)
+    private static $template, $params;
+
+    public static function start($name, $params = [])
     {
+        self::$template = ROOT . DS . "app" . DS . "views" . DS . "components" . DS . $name . ".php";
+        self::$params = $params;
+
+        ob_start();
+    }
+
+    public static function end()
+    {
+        $content = ob_get_clean();
+
         ob_start();
 
-        include_once(ROOT . DS . 'app' . DS . 'views' . DS . 'components' . DS . $name . '.php');
+        if(!empty(self::$params)) {
 
-        return ob_get_clean();
+            foreach(self::$params as $variable => $value) {
+
+                ${$variable} = $value;
+            }
+        }
+
+        include_once(self::$template);
+
+        $component = ob_get_clean();
+
+        echo str_replace('@content', $content, $component);
     }
 }
