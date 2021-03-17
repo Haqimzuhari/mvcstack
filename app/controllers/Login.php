@@ -40,7 +40,6 @@ class Login extends Controller
             }
         }
         
-        $this->title = "Login &mdash; " . TITLE;
         $this->view('login');
     }
 }
