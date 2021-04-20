@@ -17,7 +17,7 @@
         <link href="<?=asset('css/tailwind.css')?>" rel="stylesheet">
 
         <!-- Icons -->
-        <link href="<?= asset('icons/css/line-awesome.min.css')?>" rel="stylesheet">
+        <link href="<?= asset('icons/material-icons/all.css')?>" rel="stylesheet">
 
         <!-- Fonts -->
         <link href="<?=asset('css/fonts.css')?>" rel="stylesheet">
