@@ -6,6 +6,8 @@ class Component
 
     public static function start($name, $params = [])
     {
+        $name = str_replace('/', DS, str_replace('.', DS, $name));
+        
         self::$template = ROOT . DS . "app" . DS . "views" . DS . "components" . DS . $name . ".php";
         self::$params = $params;
 

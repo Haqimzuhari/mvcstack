@@ -3,8 +3,8 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
-      'sans': ['poppins'],
-      'serif': ['playfairdisplay'],
+      'sans': ['karla'],
+      'serif': ['lora'],
     },
     extend: {},
   },

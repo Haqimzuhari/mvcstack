@@ -1,22 +1,19 @@
 <section class="flex flex-col items-center justify-center min-h-screen gap-4">
 
-    <h1 class="text-lg font-bold">Welcome to MVCSTACK</h1>
+    <h1 class="font-serif text-2xl font-bold">Welcome to MVCSTACK</h1>
     
     <p class="text-sm font-light">Nothing to see here</p>
 
-    <span x-data="{modal: false}" x-cloak>
+    <?php Component::start('buttons.modal-trigger', ['class' => 'button primary', 'target' => 'modal-example']) ?>
+        Open Modal
+    <?php Component::end() ?>
 
-        <button type="button" class="text-white bg-green-500 button hover:bg-green-600" x-on:click="modal=true">Modal</button>
-
-        <?php Component::start('modal', ['input'=>'Hi im input']) ?>
-            <div class="p-5">
-                Hello from modal
-            </div>
-        <?php Component::end() ?>
-    </span>
+    <?php Component::start('snippets.modal', ['modal_id'=>'modal-example']) ?>
+        Hello from modal
+    <?php Component::end() ?>
     
     <form method="post" action="<?= route('logout') ?>">
-        <button type="submit" class="button primary">
+        <button type="submit" class="link secondary">
             Logout
         </button>
     </form>
