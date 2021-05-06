@@ -1,14 +1,8 @@
 <section class="flex items-center justify-center min-h-screen">
 
-    <div class="flex flex-col w-full max-w-sm p-10 bg-white rounded-lg shadow-sm">
+    <div class="flex flex-col w-full max-w-sm p-10 bg-white rounded-lg shadow-lg">
 
         <div class="flex flex-col gap-5">
-
-            <div>
-                <a href="<?= route('') ?>" class="text-xs link secondary">
-                    Cancel
-                </a>
-            </div>
             
             <h1 class="text-xl font-bold">REGISTER AN ACCOUNT</h1>
 
