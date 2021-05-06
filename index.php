@@ -2,10 +2,18 @@
 
 SESSION_START();
 
-include_once('config.php');
 
-require_once('debug.php');
-require_once('functions.php');
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', dirname(__FILE__));
+
+
+include('env.php');
+include('config/apps.php');
+
+
+require_once('config/debug.php');
+require_once('config/functions.php');
+
 
 spl_autoload_register(function ($class) {
 
@@ -16,6 +24,7 @@ spl_autoload_register(function ($class) {
       require_once($cores);
    }
 });
+
 
 spl_autoload_register(function ($class) {
 

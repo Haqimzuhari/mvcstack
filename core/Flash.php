@@ -65,7 +65,7 @@ class Flash
             $flash_label = $type_flash_label[$flashes['type']];
             $messages = $flashes['message'];
             
-            include_once(ROOT.DS.'app'.DS.'views'.DS.'components'.DS.'flash.php');
+            include_once(ROOT.DS.'app'.DS.'views'.DS.'components'.DS.'snippets'.DS.'flash.php');
         }
         else {
             return null;
