@@ -1,8 +1,12 @@
+// Dont resend form
 if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
 }
 
+// Feather icon
+feather.replace()
 
+// Lock scroll when open modal
 function bsd(status) {
 	var body = document.querySelector("body");
 

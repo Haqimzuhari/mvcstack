@@ -2,33 +2,32 @@
 
 class Component
 {
-    private static $template, $params;
-
-    public static function start($name, $params = [])
+    private $template = null, $params = [];
+    
+    public function __construct($template_name, $params = [])
     {
-        $name = str_replace('/', DS, str_replace('.', DS, $name));
-        
-        self::$template = ROOT . DS . "app" . DS . "views" . DS . "components" . DS . $name . ".php";
-        self::$params = $params;
+        $template_name = str_replace('/', DS, str_replace('.', DS, $template_name));
+        $this->template = ROOT . DS . "app" . DS . "views" . DS . "components" . DS . $template_name . ".php";
+        $this->params = $params;
 
         ob_start();
     }
 
-    public static function end()
+    public function close()
     {
         $content = ob_get_clean();
 
         ob_start();
 
-        if(!empty(self::$params)) {
-
-            foreach(self::$params as $variable => $value) {
-
+        if(!empty($this->params)) 
+        {
+            foreach($this->params as $variable => $value) 
+            {
                 ${$variable} = $value;
             }
         }
 
-        include_once(self::$template);
+        include($this->template);
 
         $component = ob_get_clean();
 
