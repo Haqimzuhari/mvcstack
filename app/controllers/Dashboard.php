@@ -5,7 +5,6 @@ class Dashboard extends Controller
     public function __construct()
     {
         if(auth() == false) {
-
             return redirect('login');
         }
 
