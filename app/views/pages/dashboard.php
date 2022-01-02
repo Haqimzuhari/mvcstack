@@ -4,16 +4,16 @@
     
     <p class="text-sm font-light">Nothing to see here</p>
 
-    <?php Component::start('buttons.modal-trigger', ['class' => 'button primary', 'target' => 'modal-example']) ?>
+    <?php $card = new Component('buttons.modal-trigger', ['class' => 'button primary', 'target' => 'modal-example']) ?>
         Open Modal
-    <?php Component::end() ?>
+    <?php $card->close() ?>
 
-    <?php Component::start('snippets.modal', ['modal_id'=>'modal-example']) ?>
-        Hello from modal
-    <?php Component::end() ?>
+    <?php $modal = new Component('snippets.modal', ['modal_id'=>'modal-example']) ?>
+        wow
+    <?php $modal->close() ?>
     
     <form method="post" action="<?= route('logout') ?>">
-        <button type="submit" class="link secondary">
+        <button type="submit" class="text-blue-800 transition duration-300 ease-in-out hover:text-blue-600">
             Logout
         </button>
     </form>

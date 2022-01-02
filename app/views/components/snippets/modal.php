@@ -20,7 +20,7 @@
         x-transition:leave-start="opacity-100 translate-y-0" 
         x-transition:leave-end="opacity-0 -translate-y-4 sm:translate-y-4" 
         x-on:click.away="modal=false, bsd(false)">
-		<div class="p-10 bg-white rounded-sm shadow-sm">
+		<div class="bg-white rounded-sm shadow-sm">
 			@content
 		</div>
 	</div>
