@@ -2,11 +2,11 @@
 
 class Login extends Controller
 {
+    public $email;
+    
     public function __construct()
     {
-        if(auth() != false) {
-            return redirect('dashboard');
-        }
+        if(auth()) return redirect('dashboard');
 
         $this->Database = new Database;
     }
@@ -14,8 +14,10 @@ class Login extends Controller
     public function index()
     {
         if(isset($_POST['login'])) {
+            $this->email = $_POST['email-address'];
+
             $validate = Validate::post([
-                'email' => $_POST['email'],
+                'email' => $_POST['email-address'],
                 'password' => $_POST['password'],
             ]);
 
@@ -30,12 +32,14 @@ class Login extends Controller
                     return redirect('dashboard');
                 }
                 else {
-                    Flash::set('warning', 'Unable to find an account with this Email and Password');
+                    Flash::set('warning', 'Account not found!', 'Invalid <strong>Email Address</strong> or <strong>Password</strong>.');
                 }
             }
         }
         
-        $this->title = "Login &mdash; " . TITLE;
-        $this->view('login');
+        $this->title = "Login";
+        $this->view('login', [
+            'email' => $this->email,
+        ]);
     }
 }
