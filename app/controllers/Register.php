@@ -2,12 +2,11 @@
 
 class Register extends Controller
 {
+    public $email_address;
+    
     public function __construct()
     {
-        if(auth() != false) {
-
-            return redirect('dashboard');
-        }
+        if(auth() != false) return redirect('dashboard');
 
         $this->Database = new Database;
     }
@@ -15,28 +14,24 @@ class Register extends Controller
     public function index()
     {
         if(isset($_POST['register'])) {
+            $this->email_address = $_POST['email_address'];
             
             $validate = Validate::post([
-                'email' => $_POST['email'],
-                'first_name' => $_POST['first_name'],
-                'last_name' => $_POST['last_name'],
+                'email_address' => $_POST['email_address'],
                 'password' => $_POST['password'],
-                'confirm_password' => $_POST['confirm_password'],
+                'password_confirmation' => $_POST['password_confirmation'],
             ]);
 
             if($validate == true) {
-
                 $input = Validate::$data;
 
-                $query = "select * from `users` where `email`='".$input['email']."' and `password`='".md5($input['password'])."'";
+                $query = "select * from `users` where `email`='".$input['email_address']."' and `password`='".md5($input['password'])."'";
                 $user = $this->Database->count($query);
 
                 if($user > 0) {
-
-                    Flash::set('warning', 'Account already exists. Please login');
+                    Flash::set('warning', 'You already registered!', 'Account already exists. Please login');
                 }
                 else {
-
                     if($input['password'] === $input['confirm_password']) {
 
                         $query = "insert into `users` (
@@ -48,31 +43,16 @@ class Register extends Controller
                             values (
                                 '".$input['email']."',
                                 '".md5($input['password'])."',
-                                '4',
+                                '2',
                                 '".date('Y-m-d H:i:s')."'
                             )
                         ";
                         $this->Database->query($query);
-                        
-                        $query = "
-                            insert into `profiles` (
-                                `user_id`,
-                                `first_name`,
-                                `last_name`
-                            )
-                            values (
-                                '".$this->Database->lastInsertId."',
-                                '".$input['first_name']."',
-                                '".$input['last_name']."'
-                            )
-                        ";
-                        $this->Database->query($query);
 
-                        Flash::set('success', 'Account created. Please Login.');
+                        Flash::set('success', 'Congratulation!', 'Account created. Please Login.');
                     }
                     else {
-
-                        Flash::set('warning', 'Password not identical.');
+                        Flash::set('warning', 'Password did\'t match!', 'Password not identical.');
                     }
                 }
 
@@ -80,7 +60,9 @@ class Register extends Controller
             }
         }
         
-        $this->title = "Register &mdash; " . TITLE;
-        $this->view('register');
+        $this->title = "Register";
+        $this->view('register', [
+            'email_address' => $this->email_address,
+        ]);
     }
 }
