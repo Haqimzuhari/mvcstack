@@ -11,7 +11,7 @@ class Validate
         
         foreach($inputs as $key => $value) {
             if($value == "" or is_null($value)) {
-                $alerts[] = "Field ".self::clean($key)." is required.";
+                $alerts[] = "<strong>".self::clean($key)."</strong> is required.";
                 $error = true;
             }
 
@@ -22,7 +22,7 @@ class Validate
             return true;
         }
         else {
-            Flash::set('warning', $alerts);
+            Flash::set('warning', 'Required!', $alerts);
             return false;
         }
     }

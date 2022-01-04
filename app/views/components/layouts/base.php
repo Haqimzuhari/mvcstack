@@ -36,11 +36,11 @@
         <title><?= $title ?? TITLE ?></title>
     </head>
 
-    <body>
+    <body class="bg-slate-100 text-gray-800">
         @content
 
         <!-- Flash notification -->
-        <?php Flash::show() ?>
+        <?php $flash = new Component('flash'); $flash->close() ?>
 
         <!-- Custom scripts -->
         <script src="<?= asset('js/scripts.js') ?>"></script>
