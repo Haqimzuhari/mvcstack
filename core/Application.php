@@ -16,14 +16,11 @@ class Application
         self::$url = $url;
         
         $controllerName = (!empty($url) and $url[0] != "") ? ucwords($url[0]) : DEFAULT_CONTROLLER;
-        $controllerPath = ROOT.DS."app".DS."controllers".DS.$controllerName.".php";
+        $this->controller = str_replace(' ', '', ucwords(str_replace('-', ' ', $controllerName)));
+        $controllerPath = ROOT.DS."app".DS."controllers".DS.$this->controller.".php";
         
         if(file_exists($controllerPath)) {
-
-            $this->controller = $controllerName;
-
             unset($url[0]);
-
             $url = (!empty($url)) ? array_values($url) : [];
 
             require_once($controllerPath);
