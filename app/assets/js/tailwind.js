@@ -1,9 +1,9 @@
 tailwind.config = {
     theme: {
         fontFamily: {
-            'sans': ['Karla'],
-            'serif': ['Alegreya'],
-            'mono': ['Fira Code'],
+            'sans': ['Inter Tight'],
+            'serif': ['Lora'],
+            'mono': ['Overpass Mono'],
         },
         extend: {}
     }
