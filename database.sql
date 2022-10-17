@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.23, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mvcstack
+-- Host: localhost    Database: mvcstack
 -- ------------------------------------------------------
--- Server version	8.0.23-0ubuntu0.20.04.1
+-- Server version	8.0.28
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `profiles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `profiles` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint unsigned NOT NULL,
-  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `contact` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  KEY `profiles_FK_1` (`user_id`),
-  CONSTRAINT `profiles_FK_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `fullname` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `profiles_FK` (`user_id`),
+  CONSTRAINT `profiles_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `profiles` (
 
 LOCK TABLES `profiles` WRITE;
 /*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` VALUES (1,'System','Administrator','0000000000');
+INSERT INTO `profiles` VALUES (1,1,'Administrator');
 /*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +65,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@email.com','5ebe2294ecd0e0f08eab7690d2a6ee69',1,'2021-02-18 03:43:18');
+INSERT INTO `users` VALUES (1,'admin@example.com','5ebe2294ecd0e0f08eab7690d2a6ee69',1,'2022-10-17 06:54:20');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,4 +82,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-18 12:31:09
+-- Dump completed on 2022-10-18  1:50:21
