@@ -64,3 +64,8 @@ function uuid()
     $now = date('ynjGis');
     return str_shuffle($random.$now);
 }
+
+function now()
+{
+    return date('Y-m-d H:i:s');
+}

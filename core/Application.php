@@ -16,7 +16,7 @@ class Application
         self::$url = $url;
         
         $controllerName = (!empty($url) and $url[0] != "") ? ucwords($url[0]) : DEFAULT_CONTROLLER;
-        $this->controller = str_replace(' ', '', ucwords(str_replace('-', ' ', $controllerName)));
+        $this->controller = str_replace(' ', '', ucwords(str_replace('-', ' ', str_replace('_', '-', $controllerName))));
         $controllerPath = ROOT.DS."app".DS."controllers".DS.$this->controller.".php";
         
         if(file_exists($controllerPath)) {
