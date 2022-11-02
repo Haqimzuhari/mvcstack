@@ -4,9 +4,9 @@ class Users extends Database
 {
     protected $table = "users";
 
-    public static function profile($id)
+    public static function Profile($id)
     {
-        $query = "select * from `profiles` where `user_id` = '".$id."'";
+        $query = "SELECT * FROM `profiles` WHERE `user_id` = '".$id."'";
         return (new self)->first($query);
     }
 }

@@ -20,9 +20,7 @@ class Auth
     public static function update($users)
     {
         self::close();
-
         self::set($users);
-
         return true;
     }
 }

@@ -22,57 +22,34 @@ class Application
         if(file_exists($controllerPath)) {
             unset($url[0]);
             $url = (!empty($url)) ? array_values($url) : [];
-
             require_once($controllerPath);
-
             $this->controller = new $this->controller;
-
-            $methodName = (!empty($url)) ? strtolower($url[0]) : DEFAULT_METHOD;
-
+            $methodName = (!empty($url)) ? str_replace(' ', '', ucwords(str_replace('-', ' ', str_replace('_', '-', $url[0])))) : DEFAULT_METHOD;
+            
             if(method_exists($this->controller, $methodName)) {
-
                 $this->method = $methodName;
-
                 unset($url[0]);
-
                 $this->params = (!empty($url)) ? array_values($url) : [];
-
                 call_user_func_array([$this->controller, $this->method], $this->params);
-            }
-            else {
-                
+            } else {
                 if(method_exists($this->controller, DEFAULT_METHOD)) {
-                    
                     $this->method = DEFAULT_METHOD;
-    
                     $this->params = (!empty($url)) ? array_values($url) : [];
-                    
                     call_user_func_array([$this->controller, $this->method], $this->params);
-                }
-                else {
-
+                } else {
                     if(ENV == 'dev') {
-
                         dd('Method ' . $methodName . ' does not exists');
-                    }
-                    else {
-    
+                    } else {
                         Response::set_statusCode(404);
-    
                         dd('404: Page not found');
                     }
                 }
             }
-        }
-        else {
+        } else {
             if(ENV == 'dev') {
-
                 dd('Class ' . $controllerName . ' does not exists');
-            }
-            else {
-
+            } else {
                 Response::set_statusCode(404);
-
                 dd('404: Page not found');
             }
         }
@@ -81,11 +58,8 @@ class Application
     private function get_url() 
     {
         if(isset($_SERVER['REQUEST_URI'])) {
-            
             $url = $_SERVER['REQUEST_URI'];
-            
             if(isset($_SERVER['QUERY_STRING'])) {
-
                 $url = str_replace($_SERVER['QUERY_STRING'], '', $url);
                 $url = str_replace('?', '', $url);
             }
@@ -98,7 +72,8 @@ class Application
             self::$domain = $protocol . $host;
             self::$root_url = URL;
             
-            
+            $url = ($url == "/") ? $url.DEFAULT_AUTH_ROUTE : $url;
+
             return $this->cleanUrl($url);
         }
     }
@@ -106,14 +81,11 @@ class Application
     private function cleanUrl($urlString)
     {
         $url = explode('/', $urlString);
-
         if (($key = array_search('', $url)) !== false) {
-
             unset($url[$key]);
         }
 
         if (($key = array_search(str_replace('/','',URL), $url)) !== false) {
-
             unset($url[$key]);
         }
 
