@@ -1,6 +1,6 @@
 # MVCSTACK
 
-Version 3.0.0.
+Version 5.0.0.
 Simple PHP MVC framework.
 
 ## Installation
@@ -36,29 +36,33 @@ MVCSTACK using [TailwindCSS](https://tailwindcss.com/) as default CSS Framework.
 MVCSTACK using [AlpineJS](https://github.com/alpinejs/alpine) as default javascript framework.
 
 ## Default Fonts & Icons
-1. MVCSTACK using google font `Karla` for sans, `Alegreya` for serif, `Fira Code` as mono as default font-family.
-2. MVCSTACK using `Feather Icon` as default icon family
+1. MVCSTACK using google font `Inter Tight` for sans, `Lora` for serif, `Overpass Mono` as mono as default font-family.
+2. MVCSTACK using `Hero Icons` as default icon family
 
 ## Simple but reliable
 #### Easy access model
 ```php
-public static function profile($id)
+public static function Profile($id)
 {
-    $query = "select * from `profiles` where `user_id` = '".$id."'";
+    $query = "SELECT * FROM `profiles` WHERE `user_id` = '$id'";
     return (new self)->first($query);
 }
 ```
 You can access `profile` from `users` class from anywhere.
 ```php
-<p>First Name: <?= Users::profile($user->id)?></p>
+<p>First Name: <?= Users::Profile($user->id)?></p>
 ```
 
 #### Component solution for repeatable design. This component is stackable
 On your `view` page
 ```php
+// With Content
 <?php $modal_trigger = new Component('buttons.modal-trigger', ['class' => 'button primary']) ?>
     Open Modal
 <?php $modal_trigger->close() ?>
+
+// Without Content
+<?php $navbar = new Component('nav.topbar'); $navbar->close() ?>
 ```
 
 On your `components/buttons/model-trigger.php` page

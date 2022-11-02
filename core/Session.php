@@ -5,7 +5,6 @@ class Session
     public static function set($name, $value)
     {
         $_SESSION[$name] = $value;
-
         return true;
     }
 
@@ -13,8 +12,7 @@ class Session
     {
         if(isset($_SESSION[$name])) {
             return $_SESSION[$name];
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -24,8 +22,7 @@ class Session
         if(isset($_SESSION[$name])) {
             unset($_SESSION[$name]);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

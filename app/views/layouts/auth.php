@@ -1,5 +1,6 @@
 <?php $base = new Component('layouts.base', ['title' => $this->title]) ?>
-    <main class="bg-stone-100">
+    <?php $topbar = new Component('nav.topbar'); $topbar->close() ?>
+    <main>
         @content
     </main>
 <?php $base->close() ?>

@@ -16,21 +16,15 @@ class Component
     public function close()
     {
         $content = ob_get_clean();
-
         ob_start();
-
-        if(!empty($this->params)) 
-        {
-            foreach($this->params as $variable => $value) 
-            {
+        if(!empty($this->params)) {
+            foreach($this->params as $variable => $value) {
                 ${$variable} = $value;
             }
         }
 
         include($this->template);
-
         $component = ob_get_clean();
-
         echo str_replace('@content', $content, $component);
     }
 }
