@@ -22,8 +22,6 @@
         </form>
 
         <div class="flex flex-col items-center space-y-4">
-            <a href="#" class="text-xs text-gray-500 link-primary">Forgot Password?</a>
-            <hr class="w-full border-gray-300">
             <a href="<?=route('create-account')?>" class="text-xs text-gray-500 link-primary">Don't have an account? Create an account</a>
         </div>
     </div>
