@@ -25,7 +25,6 @@
 
     <!-- Tailwindcss script -->
     <script src="<?=asset('js/tailwind.js')?>"></script>
-
     <style type="text/tailwindcss">
         .transition-default {
             @apply transition duration-300 ease-in-out;

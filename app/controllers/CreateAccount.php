@@ -12,7 +12,7 @@ class CreateAccount extends Controller
     public function Index()
     {
         $email = null;
-        if(isset($_POST['create_account'])) {
+        if (isset($_POST['create_account'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
             $encrypt_password = md5($password);
@@ -24,18 +24,17 @@ class CreateAccount extends Controller
             $sql = "SELECT * FROM `users` WHERE `email`='$email' AND `password`='$encrypt_password'";
             $user = $this->Database->count($sql);
 
-            if($user > 0) {
+            if ($user > 0) {
                 Flash::set('warning', 'You already registered!', 'Account already exists. Please login');
                 return redirect('sign-in');
             } else {
-                if($password === $confirm_password) {
+                if ($password === $confirm_password) {
                     $sql = "INSERT INTO `users` (`email`, `password`, `role`, `created_at`) VALUES ('$email', '$encrypt_password', '$role', '$timestamps')";
                     $this->Database->query($sql);
 
                     Flash::set('success', 'Congratulation!', 'Account created. Please Login.');
                     return redirect('sign-in');
-                }
-                else {
+                } else {
                     Flash::set('warning', 'Password did\'t match!', 'Password not identical.');
                 }
             }
