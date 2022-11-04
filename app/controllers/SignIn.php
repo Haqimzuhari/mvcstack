@@ -4,7 +4,7 @@ class SignIn extends Controller
 {
     public function __construct()
     {
-        if(auth()) return redirect(DEFAULT_AUTH_ROUTE);
+        if (auth()) return redirect(DEFAULT_AUTH_ROUTE);
         $this->Database = new Database;
         $this->layout = "main";
     }
@@ -12,7 +12,7 @@ class SignIn extends Controller
     public function Index()
     {
         $email = null;        
-        if(isset($_POST['login'])) {
+        if (isset($_POST['login'])) {
             $email = $_POST['email'];
             $password = md5($_POST['password']);
             

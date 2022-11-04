@@ -1,5 +1,4 @@
 <?php
-
 class Controller
 {
     protected $layout = DEFAULT_LAYOUT;
@@ -9,15 +8,11 @@ class Controller
     
     public function __get($varName)
     {
-        if(is_array($this->variable)) {
-            if(!array_key_exists($varName,$this->variable)) {
-                return null;
-            }else {
-                return $this->variable[$varName];
-            }
-        }else {
-            return null;
+        if (is_array($this->variable)) {
+            return (!array_key_exists($varName,$this->variable)) ? null : $this->variable[$varName];
         }
+
+        return null;
     }
 
     public function __set($varName, $value) 
