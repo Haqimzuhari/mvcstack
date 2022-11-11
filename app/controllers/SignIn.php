@@ -5,19 +5,19 @@ class SignIn extends Controller
     public function __construct()
     {
         if (auth()) return redirect(DEFAULT_AUTH_ROUTE);
-        $this->Database = new Database;
         $this->layout = "main";
     }
     
     public function Index()
     {
-        $email = null;        
+        $email = null;
+
         if (isset($_POST['login'])) {
             $email = $_POST['email'];
             $password = md5($_POST['password']);
-            
-            $sql = "SELECT * FROM `users` WHERE `email`='$email' AND `password`='$password'";
-            $user = $this->Database->first($sql);
+
+            $UserModel = new UserModel;
+            $user = $UserModel->where('email', $email)->where('password', $password)->first();
 
             if(!empty($user)) {
                 Auth::set($user);
