@@ -40,17 +40,20 @@ MVCSTACK using [AlpineJS](https://github.com/alpinejs/alpine) as default javascr
 2. MVCSTACK using `Hero Icons` as default icon family
 
 ## Simple but reliable
-#### Easy access model
+#### Easy access model eloquent and relationship
 ```php
-public static function Profile($id)
+// UserModel
+public function getProfile()
 {
-    $query = "SELECT * FROM `profiles` WHERE `user_id` = '$id'";
-    return (new self)->first($query);
+    // return $this->hasOne('target-table', 'target-column', 'source-column');
+    return $this->hasOne('profiles', 'user_id', 'id');
 }
 ```
-You can access `profile` from `users` class from anywhere.
+You can access `profile` from `users` model.
 ```php
-<p>First Name: <?= Users::Profile($user->id)?></p>
+<?php foreach($users as $user): ?>
+    <p>First Name: <?=$user->getProfile?></p>
+<?php endforeach; ?>
 ```
 
 #### Component solution for repeatable design. This component is stackable
