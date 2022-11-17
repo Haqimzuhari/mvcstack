@@ -4,8 +4,10 @@ class Database
 {
     public $sql, $query_error, $last_insert_id;
     protected $connection, $table_name;
-    private $where_clause = "", $order_clause = "";
+    protected $current_row = [];
+    protected $where_clause = "", $order_clause = "";
     private $create_column_value = [], $update_column_value = [];
+    private $relatedMethods, $getRelationshipFlag = false;
 
     public function connect()
     {
@@ -13,6 +15,7 @@ class Database
 
         if ($connection) {
             $this->connection = $connection;
+            $this->relatedMethods = $this->getAllRelationshipMethods();
         } else {
             dd((ENV == 'development') ? mysqli_connect_error() : "403: Forbidden");
         }
@@ -82,7 +85,14 @@ class Database
             if ($query->num_rows > 0) {
                 $rows = [];
                 while ($row = mysqli_fetch_assoc($query)) {
-                    $rows[] = (object)$row;
+                    if (!$this->getRelationshipFlag) {
+                        $this->current_row = $row;
+                        $this->getRelationship();
+                        $rows[] = (object)$this->current_row;
+                        $this->current_row = [];
+                    } else {
+                        $rows[] = (object)$row;
+                    }
                 }
             }
         }
@@ -97,10 +107,29 @@ class Database
         $query = $this->query();
         if ($query) {
             if ($query->num_rows > 0) {
-                $row = (object)mysqli_fetch_assoc($query);
+                $row = mysqli_fetch_assoc($query);
+                if (!$this->getRelationshipFlag) {
+                    $this->current_row = $row;
+                    $this->getRelationship();
+                    $row = (object)$this->current_row;
+                    $this->current_row = [];
+                }
             }
         }
         return $row;
+    }
+
+    private function getRelationship()
+    {
+        if ($this->relatedMethods) {
+            foreach ($this->relatedMethods as $method) {
+                if (!isset($this->current_row[$method])) {
+                    $this->getRelationshipFlag = true;
+                    $this->current_row[$method] = (object)$this->{$method}();
+                    $this->getRelationshipFlag = false;
+                }
+            }
+        }
     }
 
     public function save()
@@ -134,25 +163,39 @@ class Database
 
     public function where($column, $value)
     {
-        $this->where_clause .= (empty($this->where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
+        if (!empty($column) and !empty($value)) $this->where_clause .= (empty($this->where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
         return $this;
     }
 
     public function whereOr($column, $value)
     {
-        $this->where_clause .= " OR `$column` = '$value'";
+        if (!empty($column) and !empty($value)) $this->where_clause .= " OR `$column` = '$value'";
         return $this;
     }
 
     public function orderBy($column, $order) 
     {
-        $this->order_clause .= (empty($this->order_clause)) ? "`$column` $order" : ", `$column` $order";
+        if (!empty($column) and !empty($order)) $this->order_clause .= (empty($this->order_clause)) ? "`$column` $order" : ", `$column` $order";
         return $this;
     }
 
     public function table($table)
     {
-        $this->table_name = $table;
+        if (!empty($table)) $this->table_name = $table;
         return $this;
+    }
+
+    private function getAllRelationshipMethods()
+    {
+        $class = get_class($this);
+        $all_methods = get_class_methods($class);
+        $exclude_methods = ['__construct', 'hasOne', 'hasMany', 'connect', 'query', 'sqlGen', 'get', 'first', 'getAllRelationshipMethods', 'getRelationship', 'save', 'create', 'update', 'delete', 'where', 'whereOr', 'orderBy', 'table'];
+
+        $methods = [];
+        foreach ($all_methods as $method) {
+            if (!in_array($method, $exclude_methods)) $methods[] = $method;
+        }
+
+        return $methods;
     }
 }

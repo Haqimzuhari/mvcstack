@@ -8,8 +8,8 @@ class UserModel extends Model
         $this->table_name = "users";
     }
 
-    public function getProfile($id)
+    public function getProfile()
     {
-        return $this->hasOne('profile', 'user_id', $id);
+        return $this->hasOne('profiles', 'user_id', 'id');
     }
 }
