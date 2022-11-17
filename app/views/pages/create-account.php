@@ -14,6 +14,12 @@
 
             <div class="form">
                 <div class="form-input-group">
+                    <input type="text" name="fullname" class="form-input primary p-3" placeholder="Fullname" value="<?=$this->fullname?>" required/>
+                </div>
+            </div>
+
+            <div class="form">
+                <div class="form-input-group">
                     <input type="password" name="password" class="form-input primary p-3" placeholder="Password" required/>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <?php
 
 /* ENV */
-define('ENV', 'dev');
+define('ENV', 'development'); // development / production
 
 
 /* DEFAULT VALUES */
