@@ -7,13 +7,19 @@ class Model extends Database
         //
     }
 
-    public function hasOne($table, $column, $id)
+    public function hasOne($target_table, $target_column, $source_column)
     {
-        return $this->table($table)->where($column, $id)->first();
+        $this->where_clause = "";
+
+        $value = (!empty($source_column)) ? $this->current_row[$source_column] : $source_column;
+        return $this->table($target_table)->where($target_column, $value)->first();
     }
 
-    public function hasMany($table, $column, $id)
+    public function hasMany($target_table, $target_column, $source_column)
     {
-        return $this->table($table)->where($column, $id)->get();
+        $this->where_clause = "";
+
+        $value = (!empty($source_column)) ? $this->current_row[$source_column] : $source_column;
+        return $this->table($target_table)->where($target_column, $value)->get();
     }
 }
