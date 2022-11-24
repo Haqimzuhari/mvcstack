@@ -8,11 +8,11 @@ class Database
     protected $where_clause = "", $order_clause = "";
     private $create_column_value = [], $update_column_value = [];
     private $relatedMethods, $getRelationshipFlag = false;
+    private $exclude_methods = ['__construct', 'hasOne', 'hasMany', 'connect', 'execute', 'queryBuilder', 'get', 'first', 'getAllRelationshipMethods', 'getRelationship', 'save', 'create', 'update', 'delete', 'where', 'whereOr', 'orderBy'];
 
     public function connect()
     {
         $connection = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
         if ($connection) {
             $this->connection = $connection;
             $this->relatedMethods = $this->getAllRelationshipMethods();
@@ -21,19 +21,17 @@ class Database
         }
     }
 
-    public function query() 
+    public function execute() 
     {
         $query = false;
-
         if ($this->connection) {
             $query = @mysqli_query($this->connection, $this->sql);
             $this->query_error = mysqli_error($this->connection);
         }
-
         return $query;
     }
 
-    private function sqlGen($type)
+    private function queryBuilder($type)
     {
         if (in_array($type, ['select', 'first'])) {
             $this->sql = "SELECT * FROM `$this->table_name`";
@@ -44,7 +42,6 @@ class Database
 
         if (in_array($type, ['insert'])) {
             $this->sql = "INSERT INTO `$this->table_name`";
-
             $columns = "(";
             $values = "(";
             foreach ($this->create_column_value as $column => $value) {
@@ -53,19 +50,16 @@ class Database
             }
             $columns = rtrim(trim($columns), ',') . ")";
             $values = rtrim(trim($values), ',') . ")";
-
             $this->sql .= " $columns VALUES $values";
         }
 
         if (in_array($type, ['update'])) {
             $this->sql = "UPDATE `$this->table_name` SET";
-
             $sets = "";
             foreach ($this->update_column_value as $column => $value) {
                 $sets .= "`$column` = '$value', ";
             }
             $sets = rtrim(trim($sets), ',');
-
             $this->sql .= " $sets";
             $this->sql .= (empty($this->where_clause)) ? "" : " WHERE $this->where_clause";
         }
@@ -77,10 +71,9 @@ class Database
     }
 
     public function get() {
-        $this->sqlGen("select");
-        
+        $this->queryBuilder("select");
         $rows = [];
-        $query = $this->query();
+        $query = $this->execute();
         if ($query) {
             if ($query->num_rows > 0) {
                 $rows = [];
@@ -96,15 +89,13 @@ class Database
                 }
             }
         }
-
         return $rows;
     }
 
     public function first() {
-        $this->sqlGen("first");
-        
+        $this->queryBuilder("first");
         $row = [];
-        $query = $this->query();
+        $query = $this->execute();
         if ($query) {
             if ($query->num_rows > 0) {
                 $row = mysqli_fetch_assoc($query);
@@ -134,15 +125,15 @@ class Database
 
     public function save()
     {
-        $this->sqlGen('update');dd($this->sql);
-        return ($this->query()) ? true : false;
+        $this->queryBuilder('update');dd($this->sql);
+        return ($this->execute()) ? true : false;
     }
 
     public function create($column_value) 
     {
         $this->create_column_value = $column_value;
-        $this->sqlGen('insert');
-        if ($this->query()) {
+        $this->queryBuilder('insert');
+        if ($this->execute()) {
             $this->last_insert_id = mysqli_insert_id($this->connection);
             return true;
         }
@@ -157,8 +148,8 @@ class Database
 
     public function delete() 
     {
-        $this->sqlGen('delete');dd($this->sql);
-        return ($this->query()) ? true : false;
+        $this->queryBuilder('delete');dd($this->sql);
+        return ($this->execute()) ? true : false;
     }
 
     public function where($column, $value)
@@ -179,21 +170,14 @@ class Database
         return $this;
     }
 
-    public function table($table)
-    {
-        if (!empty($table)) $this->table_name = $table;
-        return $this;
-    }
-
     private function getAllRelationshipMethods()
     {
         $class = get_class($this);
         $all_methods = get_class_methods($class);
-        $exclude_methods = ['__construct', 'hasOne', 'hasMany', 'connect', 'query', 'sqlGen', 'get', 'first', 'getAllRelationshipMethods', 'getRelationship', 'save', 'create', 'update', 'delete', 'where', 'whereOr', 'orderBy', 'table'];
 
         $methods = [];
         foreach ($all_methods as $method) {
-            if (!in_array($method, $exclude_methods)) $methods[] = $method;
+            if (!in_array($method, $this->exclude_methods)) $methods[] = $method;
         }
 
         return $methods;

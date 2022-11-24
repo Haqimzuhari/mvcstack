@@ -2,14 +2,10 @@
 
 class UserModel extends Model
 {
-    public function __construct()
-    {
-        $this->connect();
-        $this->table_name = "users";
-    }
+    protected $table_name = "users";
 
-    public function getProfile()
+    public function Profile()
     {
-        return $this->hasOne('profiles', 'user_id', 'id');
+        return $this->hasOne('ProfileModel', 'user_id', 'id');
     }
 }

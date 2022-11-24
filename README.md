@@ -43,10 +43,16 @@ MVCSTACK using [AlpineJS](https://github.com/alpinejs/alpine) as default javascr
 #### Easy access model eloquent and relationship
 ```php
 // UserModel
-public function getProfile()
+public function Profile()
 {
-    // return $this->hasOne('target-table', 'target-column', 'source-column');
-    return $this->hasOne('profiles', 'user_id', 'id');
+    // return $this->hasOne('target-model-name', 'target-column', 'source-column');
+    return $this->hasOne('ProfileModel', 'user_id', 'id');
+}
+
+public function Students()
+{
+    // return $this->hasMany('target-model-name', 'target-column', 'source-column');
+    return $this->hasMany('ProfileModel', 'user_id', 'id');
 }
 ```
 You can access `profile` from `users` model.
