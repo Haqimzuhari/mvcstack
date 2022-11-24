@@ -4,22 +4,22 @@ class Model extends Database
 {
     public function __construct()
     {
-        //
+        $this->connect();
     }
 
-    public function hasOne($target_table, $target_column, $source_column)
+    public function hasOne($target_model, $target_column, $source_column)
     {
         $this->where_clause = "";
-
         $value = (!empty($source_column)) ? $this->current_row[$source_column] : $source_column;
-        return $this->table($target_table)->where($target_column, $value)->first();
+        $Model = new $target_model;
+        return $Model->where($target_column, $value)->first();
     }
 
-    public function hasMany($target_table, $target_column, $source_column)
+    public function hasMany($target_model, $target_column, $source_column)
     {
         $this->where_clause = "";
-
         $value = (!empty($source_column)) ? $this->current_row[$source_column] : $source_column;
-        return $this->table($target_table)->where($target_column, $value)->get();
+        $Model = new $target_model;
+        return $Model->where($target_column, $value)->get();
     }
 }
