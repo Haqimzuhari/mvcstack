@@ -9,6 +9,6 @@ class Dashboard extends Controller
     
     public function Index()
     {
-        $this->view('dashboard');
+        $this->view('dashboard.index');
     }
 }

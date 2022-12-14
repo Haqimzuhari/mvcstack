@@ -1,185 +1,209 @@
 <?php
-
 class Database
 {
-    public $sql, $query_error, $last_insert_id;
-    protected $connection, $table_name;
-    protected $current_row = [];
-    protected $where_clause = "", $order_clause = "";
-    private $create_column_value = [], $update_column_value = [];
-    private $relatedMethods, $getRelationshipFlag = false;
-    private $exclude_methods = ['__construct', 'hasOne', 'hasMany', 'connect', 'execute', 'queryBuilder', 'get', 'first', 'getAllRelationshipMethods', 'getRelationship', 'save', 'create', 'update', 'delete', 'where', 'whereOr', 'orderBy'];
+    public static $connection, $sql, $error, $last_insert_id;
+    private static $relationship;
+    private static $create_column_value=[], $update_column_value=[];
+    protected static $where_clause=null, $order_clause=null;
 
-    public function connect()
+    public static function connect()
     {
         $connection = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         if ($connection) {
-            $this->connection = $connection;
-            $this->relatedMethods = $this->getAllRelationshipMethods();
+            self::$connection = $connection;
         } else {
-            dd((ENV == 'development') ? mysqli_connect_error() : "403: Forbidden");
+            self::$error = (ENV == 'development') ? mysqli_connect_error() : "403: Forbidden";
         }
     }
 
-    public function execute() 
+    public static function execute($sql)
     {
-        $query = false;
-        if ($this->connection) {
-            $query = @mysqli_query($this->connection, $this->sql);
-            $this->query_error = mysqli_error($this->connection);
+        self::connect();
+        $result = false;
+        if (self::$connection) {
+            self::$sql = $sql;
+            $result = @mysqli_query(self::$connection, $sql);
+            self::$error = mysqli_error(self::$connection);
         }
-        return $query;
+
+        return $result;
     }
 
-    private function queryBuilder($type)
+    public static function all($break=false)
     {
-        if (in_array($type, ['select', 'first'])) {
-            $this->sql = "SELECT * FROM `$this->table_name`";
-            $this->sql .= (empty($this->where_clause)) ? "" : " WHERE $this->where_clause";
-            $this->sql .= (empty($this->order_clause)) ? "" : " ORDER BY $this->order_clause";
-            $this->sql .= ($type == "first") ? " LIMIT 1" : "";
-        }
-
-        if (in_array($type, ['insert'])) {
-            $this->sql = "INSERT INTO `$this->table_name`";
-            $columns = "(";
-            $values = "(";
-            foreach ($this->create_column_value as $column => $value) {
-                $columns .= "`$column`, ";
-                $values .= "'$value', ";
-            }
-            $columns = rtrim(trim($columns), ',') . ")";
-            $values = rtrim(trim($values), ',') . ")";
-            $this->sql .= " $columns VALUES $values";
-        }
-
-        if (in_array($type, ['update'])) {
-            $this->sql = "UPDATE `$this->table_name` SET";
-            $sets = "";
-            foreach ($this->update_column_value as $column => $value) {
-                $sets .= "`$column` = '$value', ";
-            }
-            $sets = rtrim(trim($sets), ',');
-            $this->sql .= " $sets";
-            $this->sql .= (empty($this->where_clause)) ? "" : " WHERE $this->where_clause";
-        }
-
-        if (in_array($type, ['delete'])) {
-            $this->sql = "DELETE FROM `$this->table_name`";
-            $this->sql .= (empty($this->where_clause)) ? "" : " WHERE $this->where_clause";
-        }
-    }
-
-    public function get() {
-        $this->queryBuilder("select");
+        $sql = self::query_builder('select');
+        $result = self::execute($sql);
         $rows = [];
-        $query = $this->execute();
-        if ($query) {
-            if ($query->num_rows > 0) {
-                $rows = [];
-                while ($row = mysqli_fetch_assoc($query)) {
-                    if (!$this->getRelationshipFlag) {
-                        $this->current_row = $row;
-                        $this->getRelationship();
-                        $rows[] = (object)$this->current_row;
-                        $this->current_row = [];
-                    } else {
+        if ($result and $result->num_rows > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                static::$relationship = self::get_relationship();
+                if (count(self::$relationship) > 0 and !$break) {
+                    foreach (self::$relationship as $method) {
+                        $class = get_called_class();
+                        $model = new $class;
+                        $model->row = $row;
+                        $row[$method] = (object)$model->$method();
                         $rows[] = (object)$row;
                     }
+                } else {
+                    $rows[] = (object)$row;
                 }
             }
         }
         return $rows;
     }
 
-    public function first() {
-        $this->queryBuilder("first");
-        $row = [];
-        $query = $this->execute();
-        if ($query) {
-            if ($query->num_rows > 0) {
-                $row = mysqli_fetch_assoc($query);
-                if (!$this->getRelationshipFlag) {
-                    $this->current_row = $row;
-                    $this->getRelationship();
-                    $row = (object)$this->current_row;
-                    $this->current_row = [];
+    public static function get($break=false)
+    {
+        $sql = self::query_builder('select');
+        $result = self::execute($sql);
+        $rows = [];
+        if ($result and $result->num_rows > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                static::$relationship = self::get_relationship();
+                if (count(self::$relationship) > 0 and !$break) {
+                    foreach (self::$relationship as $method) {
+                        $class = get_called_class();
+                        $model = new $class;
+                        $model->row = $row;
+                        $row[$method] = (object)$model->$method();
+                        $rows[] = (object)$row;
+                    }
+                } else {
+                    $rows[] = (object)$row;
                 }
             }
         }
-        return $row;
+        return $rows;
     }
 
-    private function getRelationship()
+    public static function first($break=false)
     {
-        if ($this->relatedMethods) {
-            foreach ($this->relatedMethods as $method) {
-                if (!isset($this->current_row[$method])) {
-                    $this->getRelationshipFlag = true;
-                    $this->current_row[$method] = (object)$this->{$method}();
-                    $this->getRelationshipFlag = false;
+        $sql = self::query_builder('select');
+        $result = self::execute($sql);
+        $rows = [];
+        if ($result and $result->num_rows > 0) {
+            $row = mysqli_fetch_assoc($result);
+            static::$relationship = self::get_relationship();
+            if (count(self::$relationship) > 0 and !$break) {
+                foreach (self::$relationship as $method) {
+                    $class = get_called_class();
+                    $model = new $class;
+                    $model->row = $row;
+                    $row[$method] = (object)$model->$method();
+                    $rows = (object)$row;
                 }
+            } else {
+                $rows = (object)$row;
             }
         }
+        return $rows;
     }
 
-    public function save()
+    public static function save()
     {
-        $this->queryBuilder('update');dd($this->sql);
-        return ($this->execute()) ? true : false;
+        $sql = self::query_builder('update');
+        return (self::execute($sql)) ? true : false;
     }
 
-    public function create($column_value) 
+    public static function create($column_value) 
     {
-        $this->create_column_value = $column_value;
-        $this->queryBuilder('insert');
-        if ($this->execute()) {
-            $this->last_insert_id = mysqli_insert_id($this->connection);
+        static::$create_column_value = $column_value;
+        $sql = self::query_builder('insert');
+        if (self::execute($sql)) {
+            self::$last_insert_id = mysqli_insert_id(self::$connection);
             return true;
         }
         return false;
     }
 
-    public function update($column_value) 
+    public static function update($column_value) 
     {
-        $this->update_column_value = $column_value;
-        return $this;
+        static::$update_column_value = $column_value;
+        return new static;
     }
 
-    public function delete() 
+    public static function delete() 
     {
-        $this->queryBuilder('delete');dd($this->sql);
-        return ($this->execute()) ? true : false;
+        $sql = self::query_builder('delete');
+        return (self::execute($sql)) ? true : false;
     }
 
-    public function where($column, $value)
+    public static function where($column, $value)
     {
-        if (!empty($column) and !empty($value)) $this->where_clause .= (empty($this->where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
-        return $this;
+        if (!empty($column) and !empty($value)) static::$where_clause .= (empty(static::$where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
+        return new static;
     }
 
-    public function whereOr($column, $value)
+    public static function whereOr($column, $value)
     {
-        if (!empty($column) and !empty($value)) $this->where_clause .= " OR `$column` = '$value'";
-        return $this;
+        if (!empty($column) and !empty($value)) static::$where_clause .= " OR `$column` = '$value'";
+        return new static;
     }
 
-    public function orderBy($column, $order) 
+    public static function orderBy($column, $order) 
     {
-        if (!empty($column) and !empty($order)) $this->order_clause .= (empty($this->order_clause)) ? "`$column` $order" : ", `$column` $order";
-        return $this;
+        if (!empty($column) and !empty($order)) static::$order_clause .= (empty(static::$order_clause)) ? "`$column` $order" : ", `$column` $order";
+        return new static;
     }
 
-    private function getAllRelationshipMethods()
+    private static function query_builder($crud)
     {
-        $class = get_class($this);
-        $all_methods = get_class_methods($class);
-
-        $methods = [];
-        foreach ($all_methods as $method) {
-            if (!in_array($method, $this->exclude_methods)) $methods[] = $method;
+        $class = get_called_class();
+        $model = new $class;
+        $table = $model->table_name;
+        $sql = "";
+        
+        if (in_array($crud, ['select', 'first'])) {
+            $sql = "SELECT * FROM `$table`";
+            $sql .= (empty(static::$where_clause)) ? "" : " WHERE ".static::$where_clause;
+            $sql .= (empty(static::$order_clause)) ? "" : " ORDER BY ".static::$order_clause;
+            $sql .= ($crud == "first") ? " LIMIT 1" : "";
         }
 
+        if (in_array($crud, ['insert'])) {
+            $sql = "INSERT INTO `$table`";
+            $columns = "(";
+            $values = "(";
+            foreach (static::$create_column_value as $column => $value) {
+                $columns .= "`$column`, ";
+                $values .= "'$value', ";
+            }
+            $columns = rtrim(trim($columns), ',') . ")";
+            $values = rtrim(trim($values), ',') . ")";
+            $sql .= " $columns VALUES $values";
+        }
+
+        if (in_array($crud, ['update'])) {
+            $sql = "UPDATE `$table` SET";
+            $sets = "";
+            foreach (static::$update_column_value as $column => $value) {
+                $sets .= "`$column` = '$value', ";
+            }
+            $sets = rtrim(trim($sets), ',');
+            $sql .= " $sets";
+            $sql .= (empty(static::$where_clause)) ? "" : " WHERE ".static::$where_clause;
+        }
+
+        if (in_array($crud, ['delete'])) {
+            $sql = "DELETE FROM `$table`";
+            $sql .= (empty(static::$where_clause)) ? "" : " WHERE ".static::$where_clause;
+        }
+
+        return $sql;
+    }
+
+    private static function get_relationship()
+    {
+        $class = get_called_class();
+        $reflection = new ReflectionClass($class);
+        $methods = [];
+        foreach ($reflection->getMethods() as $method) {
+            if ($method->class == $class) {
+                $methods[] = $method->name;
+            }
+        }
+        
         return $methods;
     }
 }

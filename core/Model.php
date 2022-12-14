@@ -2,24 +2,33 @@
 
 class Model extends Database
 {
-    public function __construct()
+    protected $row;
+
+    protected function hasOne($target_model, $target_column, $current_model_column)
     {
-        $this->connect();
+        static::$where_clause = "";
+        $value = (!empty($current_model_column)) ? $this->row[$current_model_column] : $current_model_column;
+        return $target_model::where($target_column, $value)->first();
     }
 
-    public function hasOne($target_model, $target_column, $source_column)
+    protected function hasMany($target_model, $target_column, $current_model_column)
     {
-        $this->where_clause = "";
-        $value = (!empty($source_column)) ? $this->current_row[$source_column] : $source_column;
-        $Model = new $target_model;
-        return $Model->where($target_column, $value)->first();
+        static::$where_clause = "";
+        $value = (!empty($current_model_column)) ? $this->row[$current_model_column] : $current_model_column;
+        return $target_model::where($target_column, $value)->get();
     }
 
-    public function hasMany($target_model, $target_column, $source_column)
+    protected function hasOneOnly($target_model, $target_column, $current_model_column)
     {
-        $this->where_clause = "";
-        $value = (!empty($source_column)) ? $this->current_row[$source_column] : $source_column;
-        $Model = new $target_model;
-        return $Model->where($target_column, $value)->get();
+        static::$where_clause = "";
+        $value = (!empty($current_model_column)) ? $this->row[$current_model_column] : $current_model_column;
+        return $target_model::where($target_column, $value)->first(true);
+    }
+
+    protected function hasManyOnly($target_model, $target_column, $current_model_column)
+    {
+        static::$where_clause = "";
+        $value = (!empty($current_model_column)) ? $this->row[$current_model_column] : $current_model_column;
+        return $target_model::where($target_column, $value)->get(true);
     }
 }
