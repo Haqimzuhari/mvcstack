@@ -1,40 +1,21 @@
 <?php
-
-function now()
+function uuidv4()
 {
-    return date('Y-m-d H:i:s');
+    $data = random_bytes(16);
+    assert(strlen($data) == 16);
+
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+}
+
+function request()
+{
+    return new Request;
 }
 
 function auth()
 {
-    return Auth::get();
-}
-
-function uuid()
-{
-    $random = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0,6);
-    $now = date('ynjGis');
-    return str_shuffle($random.$now);
-}
-
-function only($array, $desire) 
-{
-    $filtered = [];
-    foreach ($array as $key => $value) {
-        if (in_array($key, $desire)) {
-            $filtered[$key] = $value;
-        }
-    }
-    return $filtered;
-}
-
-function except($array, $desire) 
-{
-    $filtered = [];
-    foreach ($array as $key => $value) {
-        if (!in_array($key, $desire)) {
-            $filtered[$key] = $value;
-        }
-    }
-    return $filtered;
+    return new Auth;
 }

@@ -1,5 +1,4 @@
 <?php
-
 class UserModel extends Model
 {
     protected $table_name = "users";

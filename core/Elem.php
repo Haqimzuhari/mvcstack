@@ -1,5 +1,4 @@
 <?php
-
 class Elem
 {
     private $component = null, $parameters = [];
@@ -20,8 +19,8 @@ class Elem
         $content = ob_get_clean();
         ob_start();
         if(!empty($this->parameters)) {
-            foreach($this->parameters as $variable => $value) {
-                ${$variable} = $value;
+            foreach($this->parameters as $_variable => $_value) {
+                ${$_variable} = $_value;
             }
         }
 

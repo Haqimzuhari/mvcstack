@@ -1,5 +1,4 @@
 <?php
-
 class Model extends Database
 {
     protected $row;

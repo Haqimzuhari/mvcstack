@@ -1,26 +1,47 @@
 <?php
+class Auth {
 
-class Auth
-{
-    public static function set($infos)
+    public $data;
+
+    public function __construct()
     {
-        return Session::set('auth', $infos);
+        if ($this->check()) {
+            $this->data = Session::get('auth');
+        }
+    }
+    
+    public function check()
+    {
+        return (Session::check('auth')) ? true : false;
     }
 
-    public static function get()
+    public function user()
     {
-        return Session::get('auth');
+        return ($this->check()) ? UserModel::where('id', $this->data['id'])->first() : false;
     }
 
-    public static function close()
+    public function attempt($input=[])
     {
-        return Session::close('auth');
+        if (!empty($input) > 0) {
+            $user = UserModel::where('email', $input['email'])->where('password', md5($input['password']))->first();
+            if ($user) {
+                Session::set('auth', ['uuid' => uuidv4(), 'id' => $user->id]);
+                return true;
+            } else {
+                Toast::flash('warning', 'Account not found. Please try again');
+            }
+        }
+
+        return false;
     }
 
-    public static function update($users)
+    public function close()
     {
-        self::close();
-        self::set($users);
-        return true;
+        if ($this->check()) {
+            Session::close('auth');
+            return ($this->check()) ? false : true;
+        }
+
+        return false;
     }
 }
