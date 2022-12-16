@@ -10,7 +10,7 @@
     <meta name="robots" content="index, follow" />
 
     <!-- Favicon -->
-    <link href="<?= asset('icons/php-icon.png') ?>" rel="icon" type="image/gif" sizes="16x16"> 
+    <link href="<?=asset('icons/plainstack.png')?>" rel="icon" type="image/gif" sizes="16x16"> 
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
     <title><?= $title ?? TITLE ?></title>
 </head>
 
-<body>
+<body class="bg-zinc-100 text-zinc-800">
     @slot
 
     <!-- Toast notification -->

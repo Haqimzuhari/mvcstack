@@ -111,8 +111,9 @@ class Database
         static::$create_column_value = $column_value;
         $sql = self::query_builder('insert');
         if (self::execute($sql)) {
-            self::$last_insert_id = mysqli_insert_id(self::$connection);
-            return true;
+            $id = mysqli_insert_id(self::$connection);
+            $class = get_called_class();
+            return $class::where('id', $id)->first(true);
         }
         return false;
     }

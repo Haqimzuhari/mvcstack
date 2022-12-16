@@ -1,5 +1,4 @@
 <?php
-
 function domain()
 {
     return Application::$domain;

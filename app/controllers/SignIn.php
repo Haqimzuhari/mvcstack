@@ -1,15 +1,19 @@
 <?php
-
 class SignIn extends Controller
 {
     public function __construct()
     {
-        if (auth()) return redirect(DEFAULT_AUTH_ROUTE);
+        if (auth()->check()) return redirect(DEFAULT_AUTH_ROUTE);
     }
     
     public function Index()
     {
-        dd(UserModel::where('id', 1)->first());
+        if (request()->has('sign_in')) {
+            if (auth()->attempt(request()->only(['email', 'password']))) {
+                return redirect('');
+            }
+        }
+
         $this->view('authentication.sign-in');
     }
 }
