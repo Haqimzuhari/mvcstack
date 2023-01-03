@@ -1,3 +1,3 @@
-<span x-data="{id:'<?=$target?>'}" x-on:click="$dispatch('modal-overlay',{id})">
-    @content
+<span x-data="{id:'<?=$id?>'}" x-on:click="$dispatch('modal-overlay',{id})">
+    @slot
 </span>

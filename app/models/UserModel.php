@@ -7,4 +7,9 @@ class UserModel extends Model
     {
         return $this->hasOneOnly('ProfileModel', 'user_id', 'id');
     }
+
+    public function isAdmin()
+    {
+        return (in_array($this->row->role, [1])) ? true : false;
+    }
 }

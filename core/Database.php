@@ -26,6 +26,7 @@ class Database
             self::$error = mysqli_error(self::$connection);
         }
 
+        self::reset();
         return $result;
     }
 
@@ -41,8 +42,8 @@ class Database
                     foreach (self::$relationship as $method) {
                         $class = get_called_class();
                         $model = new $class;
-                        $model->row = $row;
-                        $row[$method] = (object)$model->$method();
+                        $model->row = (object)$row;
+                        $row[$method] = self::format($model->$method());
                         $rows[] = (object)$row;
                     }
                 } else {
@@ -65,8 +66,8 @@ class Database
                     foreach (self::$relationship as $method) {
                         $class = get_called_class();
                         $model = new $class;
-                        $model->row = $row;
-                        $row[$method] = (object)$model->$method();
+                        $model->row = (object)$row;
+                        $row[$method] = self::format($model->$method());
                         $rows[] = (object)$row;
                     }
                 } else {
@@ -89,14 +90,15 @@ class Database
                 foreach (self::$relationship as $method) {
                     $class = get_called_class();
                     $model = new $class;
-                    $model->row = $row;
-                    $row[$method] = (object)$model->$method();
+                    $model->row = (object)$row;
+                    $row[$method] = self::format($model->$method());
                     $rows = (object)$row;
                 }
             } else {
                 $rows = (object)$row;
             }
         }
+
         return $rows;
     }
 
@@ -206,5 +208,24 @@ class Database
         }
         
         return $methods;
+    }
+
+    private static function format($result)
+    {
+        if (is_array($result)) {
+            return (count($result) > 0) ? (object)$result : $result;
+        } elseif (is_object($result)) {
+            return (count((array)$result) > 0) ? $result : (array)$result;
+        } else {
+            return $result;
+        }
+    }
+
+    private static function reset()
+    {
+        self::$where_clause = null;
+        self::$order_clause = null;
+        self::$create_column_value=[];
+        self::$update_column_value=[];
     }
 }

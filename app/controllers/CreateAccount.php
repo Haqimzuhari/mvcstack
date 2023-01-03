@@ -10,9 +10,10 @@ class CreateAccount extends Controller
     {
         if (request()->has('create_account')) {
             $validate = request()->validate([
-                'password' => 'confirm:password_confirmation'
+                'password' => 'confirm:password_confirmation',
+                'email' => 'unique:UserModel,email',
             ]);
-
+            
             if ($validate) {
                 $user_inputs = request()->only(['email']);
                 $user_inputs['password'] = md5(request()->input('password'));
