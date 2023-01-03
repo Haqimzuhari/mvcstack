@@ -1,3 +1,6 @@
 <?php $layout = new Elem('layout.base') ?>
-    @slot
+    <?php $nav = new Elem('nav.sidebar'); $nav->close() ?>
+    <main class="pl-56 w-full">
+        <div class="p-6">@slot</div>
+    </main>
 <?php $layout->close() ?>
