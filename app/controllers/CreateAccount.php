@@ -1,62 +1,34 @@
 <?php
-
 class CreateAccount extends Controller
 {
     public function __construct()
     {
-        if(auth()) return redirect(DEFAULT_AUTH_ROUTE);
-        $this->layout = "main";
+        if(auth()->check()) return redirect(DEFAULT_AUTH_ROUTE);
     }
     
     public function Index()
     {
-        $email = null;
-        $fullname = null;
+        if (request()->has('create_account')) {
+            $validate = request()->validate([
+                'password' => 'confirm:password_confirmation',
+                'email' => 'unique:UserModel,email',
+            ]);
+            
+            if ($validate) {
+                $user_inputs = request()->only(['email']);
+                $user_inputs['password'] = md5(request()->input('password'));
+                $user_inputs['role'] = 2;
+                $user = UserModel::create($user_inputs);
 
-        if (isset($_POST['create_account'])) {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            $encrypt_password = md5($password);
-            $confirm_password = $_POST['confirm_password'];
-            $fullname = $_POST['fullname'];
+                $profile_inputs['name'] = request()->input('name');
+                $profile_inputs['user_id'] = $user->id;
+                ProfileModel::create($profile_inputs);
 
-            $role = 2;
-
-            $UserModel = new UserModel;
-
-            $user = $UserModel->where('email', $email)->where('password', $encrypt_password)->first();
-
-            if ($user > 0) {
-                Flash::set('warning', 'You already registered!', 'Account already exists. Please login');
+                Toast::flash('success', 'Create account success', 'Please login using new created account. Welcome aboard!');
                 return redirect('sign-in');
-            } else {
-                if ($password === $confirm_password) {
-                    $UserModel->create([
-                        'email' => $email,
-                        'password' => $encrypt_password,
-                        'role' => $role,
-                    ]);
-
-                    $user_id = $UserModel->last_insert_id;
-
-                    $ProfileModel = new ProfileModel;
-                    $ProfileModel->create([
-                        'user_id' => $user_id,
-                        'fullname' => $fullname,
-                    ]);
-
-                    Flash::set('success', 'Congratulation!', 'Account created. Please Login.');
-                    return redirect('sign-in');
-                } else {
-                    Flash::set('warning', 'Password did\'t match!', 'Password not identical.');
-                }
             }
         }
         
-        $this->title = "create account &mdash; " . TITLE;
-        $this->view('create-account', [
-            'email' => $email,
-            'fullname' => $fullname,
-        ]);
+        $this->view('authentication.create-account');
     }
 }

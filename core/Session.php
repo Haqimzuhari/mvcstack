@@ -1,5 +1,4 @@
 <?php
-
 class Session
 {
     public static function set($name, $value)
@@ -15,6 +14,11 @@ class Session
         } else {
             return false;
         }
+    }
+
+    public static function check($name)
+    {
+        return (isset($_SESSION[$name])) ? true : false;
     }
 
     public static function close($name)

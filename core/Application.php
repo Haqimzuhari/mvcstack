@@ -1,5 +1,4 @@
 <?php
-
 class Application
 {
     protected $controller;

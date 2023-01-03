@@ -1,5 +1,5 @@
 <?php
-class Dashboard extends Controller
+class Profile extends Controller
 {
     public function __construct()
     {
@@ -8,6 +8,6 @@ class Dashboard extends Controller
     
     public function Index()
     {
-        $this->view('dashboard.index');
+        $this->view('profile.index');
     }
 }
