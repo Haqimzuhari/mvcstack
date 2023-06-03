@@ -3,25 +3,21 @@ class Auth {
 
     public $data;
 
-    public function __construct()
-    {
+    public function __construct() {
         if ($this->check()) {
             $this->data = Session::get('auth');
         }
     }
     
-    public function check()
-    {
+    public function check() {
         return (Session::check('auth')) ? true : false;
     }
 
-    public function user()
-    {
+    public function user() {
         return ($this->check()) ? UserModel::where('id', $this->data['id'])->first() : false;
     }
 
-    public function attempt($input=[])
-    {
+    public function attempt($input=[]) {
         if (!empty($input) > 0) {
             $user = UserModel::where('email', $input['email'])->where('password', md5($input['password']))->first();
             if ($user) {
@@ -35,8 +31,7 @@ class Auth {
         return false;
     }
 
-    public function close()
-    {
+    public function close() {
         if ($this->check()) {
             Session::close('auth');
             return ($this->check()) ? false : true;

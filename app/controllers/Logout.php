@@ -1,9 +1,8 @@
 <?php
 class Logout extends Controller
 {
-    public function Index()
-    {
+    public function Index() {
         auth()->close();
-        return redirect('');
+        return redirect(DEFAULT_NON_AUTH_ROUTE);
     }
 }

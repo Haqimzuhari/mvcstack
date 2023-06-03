@@ -6,8 +6,7 @@ class Database
     private static $create_column_value=[], $update_column_value=[];
     protected static $where_clause=null, $order_clause=null;
 
-    public static function connect()
-    {
+    public static function connect() {
         $connection = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         if ($connection) {
             self::$connection = $connection;
@@ -16,8 +15,7 @@ class Database
         }
     }
 
-    public static function execute($sql)
-    {
+    public static function execute($sql) {
         self::connect();
         $result = false;
         if (self::$connection) {
@@ -30,8 +28,35 @@ class Database
         return $result;
     }
 
-    public static function all($break=false)
-    {
+    public static function rawQuery($sql, $break=false) {
+        $result = self::execute($sql);
+        $rows = [];
+        if ($result and $result->num_rows > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                static::$relationship = self::get_relationship();
+                if (count(self::$relationship) > 0 and !$break) {
+                    foreach (self::$relationship as $method) {
+                        $class = get_called_class();
+                        $model = new $class;
+                        $model->row = (object)$row;
+                        $row[$method] = self::format($model->$method());
+                        $rows[] = (object)$row;
+                    }
+                } else {
+                    $rows[] = (object)$row;
+                }
+            }
+        }
+        return $rows;
+    }
+
+    public static function count() {
+        $sql = self::query_builder('select');
+        $result = self::execute($sql);
+        return ($result) ? $result->num_rows : 0;
+    }
+
+    public static function all($break=false) {
         $sql = self::query_builder('select');
         $result = self::execute($sql);
         $rows = [];
@@ -54,8 +79,7 @@ class Database
         return $rows;
     }
 
-    public static function get($break=false)
-    {
+    public static function get($break=false) {
         $sql = self::query_builder('select');
         $result = self::execute($sql);
         $rows = [];
@@ -78,8 +102,7 @@ class Database
         return $rows;
     }
 
-    public static function first($break=false)
-    {
+    public static function first($break=false) {
         $sql = self::query_builder('select');
         $result = self::execute($sql);
         $rows = [];
@@ -102,14 +125,12 @@ class Database
         return $rows;
     }
 
-    public static function save()
-    {
+    public static function save() {
         $sql = self::query_builder('update');
         return (self::execute($sql)) ? true : false;
     }
 
-    public static function create($column_value) 
-    {
+    public static function create($column_value)  {
         static::$create_column_value = $column_value;
         $sql = self::query_builder('insert');
         if (self::execute($sql)) {
@@ -120,38 +141,42 @@ class Database
         return false;
     }
 
-    public static function update($column_value) 
-    {
+    public static function update($column_value)  {
         static::$update_column_value = $column_value;
         return new static;
     }
 
-    public static function delete() 
-    {
+    public static function delete()  {
         $sql = self::query_builder('delete');
         return (self::execute($sql)) ? true : false;
     }
 
-    public static function where($column, $value)
-    {
+    public static function where($column, $value) {
         if (!empty($column) and !empty($value)) static::$where_clause .= (empty(static::$where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
         return new static;
     }
 
-    public static function whereOr($column, $value)
-    {
+    public static function whereRaw($raw) {
+        if (!empty($raw)) static::$where_clause .= (empty(static::$where_clause)) ? $raw : " AND " . $raw;
+        return new static;
+    }
+
+    public static function whereOr($column, $value) {
         if (!empty($column) and !empty($value)) static::$where_clause .= " OR `$column` = '$value'";
         return new static;
     }
 
-    public static function orderBy($column, $order) 
-    {
+    public static function whereOrRaw($raw) {
+        if (!empty($raw)) static::$where_clause .= (empty(static::$where_clause)) ? $raw : " OR " . $raw;
+        return new static;
+    }
+
+    public static function orderBy($column, $order)  {
         if (!empty($column) and !empty($order)) static::$order_clause .= (empty(static::$order_clause)) ? "`$column` $order" : ", `$column` $order";
         return new static;
     }
 
-    private static function query_builder($crud)
-    {
+    private static function query_builder($crud) {
         $class = get_called_class();
         $model = new $class;
         $table = $model->table_name;
@@ -196,8 +221,7 @@ class Database
         return $sql;
     }
 
-    private static function get_relationship()
-    {
+    private static function get_relationship() {
         $class = get_called_class();
         $reflection = new ReflectionClass($class);
         $methods = [];
@@ -210,8 +234,7 @@ class Database
         return $methods;
     }
 
-    private static function format($result)
-    {
+    private static function format($result) {
         if (is_array($result)) {
             return (count($result) > 0) ? (object)$result : $result;
         } elseif (is_object($result)) {
@@ -221,8 +244,7 @@ class Database
         }
     }
 
-    private static function reset()
-    {
+    private static function reset() {
         self::$where_clause = null;
         self::$order_clause = null;
         self::$create_column_value=[];

@@ -44,7 +44,7 @@ class Validation {
 
         $data = $model::where($column, $this->inputs[$this->field])->first();
         if ($data) {
-            Toast::flash('warning', 'Account already exists. Please login');
+            Toast::flash('warning', ucwords($column) . " must be unique");
             return false;
         } else {
             return true;
