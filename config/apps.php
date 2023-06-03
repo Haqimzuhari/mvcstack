@@ -10,5 +10,5 @@ define('DEFAULT_METHOD','Index');
 define('DEFAULT_VIEW','index');
 define('DEFAULT_LAYOUT','default');
 
-define('DEFAULT_NON_AUTH_ROUTE','sign-in');
+define('DEFAULT_NON_AUTH_ROUTE','login');
 define('DEFAULT_AUTH_ROUTE','dashboard');

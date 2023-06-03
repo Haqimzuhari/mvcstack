@@ -1,17 +1,15 @@
 <?php
-class CreateAccount extends Controller
+class Register extends Controller
 {
-    public function __construct()
-    {
+    public function __construct() {
         if(auth()->check()) return redirect(DEFAULT_AUTH_ROUTE);
     }
     
-    public function Index()
-    {
-        if (request()->has('create_account')) {
+    public function Index() {
+        if (request()->has('register')) {
             $validate = request()->validate([
-                'password' => 'confirm:password_confirmation',
                 'email' => 'unique:UserModel,email',
+                'password' => 'confirm:password_confirmation',
             ]);
             
             if ($validate) {
@@ -20,15 +18,15 @@ class CreateAccount extends Controller
                 $user_inputs['role'] = 2;
                 $user = UserModel::create($user_inputs);
 
-                $profile_inputs['name'] = request()->input('name');
+                $profile_inputs = request()->only(['first_name', 'last_name']);
                 $profile_inputs['user_id'] = $user->id;
                 ProfileModel::create($profile_inputs);
 
-                Toast::flash('success', 'Create account success', 'Please login using new created account. Welcome aboard!');
-                return redirect('sign-in');
+                Toast::flash('success', 'Create account success', 'Please login using new created account');
+                return redirect(DEFAULT_NON_AUTH_ROUTE);
             }
         }
         
-        $this->view('authentication.create-account');
+        $this->view('register.index');
     }
 }
