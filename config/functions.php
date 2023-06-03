@@ -20,7 +20,7 @@ function route($target)
     return app() . $target;
 }
 
-function redirect($target)
+function redirect($target = '')
 {
     return header('Location: ' . route($target));
 }

@@ -1,5 +1,5 @@
 <div 
-    class="fixed inset-0 z-50 flex flex-col items-center justify-start p-2 overflow-y-auto bg-zinc-600 bg-opacity-50" 
+    class="fixed inset-0 z-50 flex flex-col items-center justify-start p-2 overflow-y-auto bg-zinc-600 bg-opacity-50 text-left" 
     x-data="{modal:false}" 
     x-show="modal" 
     x-on:modal-overlay.window="if ($event.detail.id == '<?=$id?>') modal=true" 
@@ -21,15 +21,15 @@
         x-transition:leave-end="opacity-0 -translate-y-4 sm:translate-y-4" 
         x-on:click.away="modal=false, bsd(false)"
         x-cloak>
-		<div class="p-5 bg-white rounded-xl shadow-sm space-y-6">
+		<div class="p-8 bg-white rounded-xl shadow-sm space-y-6">
             <div class="flex items-center">
-                <div class="w-full"><p class="text-sm font-bold"><?=(isset($title)) ? $title : 'Modal Title'?></p></div>
+                <div class="w-full"><p class="font-bold text-lg"><?=(isset($title)) ? $title : 'Modal Title'?></p></div>
                 <div class="w-8 flex-none flex-center">
                     <button 
                         type="button" 
-                        class="p-1 rounded-lg text-zinc-400 hover:text-black hover:bg-zinc-200 transition-default" 
+                        class="w-6 h-6 flex-center transition-default bg-zinc-100 hover:bg-zinc-300 text-zinc-400 hover:text-zinc-800 rounded-full" 
                         x-on:click="modal=false, bsd(false)">
-                            <?php $close=new Elem('icon.x-mark', ['size'=>'w-4 h-4']); $close->close() ?>
+                            <i class="fa-solid fa-xmark text-xs"></i>
                     </button>
                 </div>
             </div>
