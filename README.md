@@ -1,11 +1,11 @@
-# MVCSTACK
+# MVCSTAX
 
-Version 5.0.0.
+Version 8.0.1.
 Simple PHP MVC framework.
 
 ## Installation
 
-1. Download the latest version of [MVCSTACK](https://github.com/Haqimzuhari/mvcstack/archive/refs/heads/master.zip).
+1. Download the latest version of [MVCSTAX](https://github.com/Haqimzuhari/mvcstack/archive/refs/heads/master.zip).
 2. Extract and rename to title to your project.
 3. Place anywhere in your favorite directory or in your local server directory such as `htdoc` for XAMPP.
 4. No other installation is needed. Simply plug-and-play.
@@ -27,58 +27,59 @@ define('DB_NAME', 'mvcstack'); // DB name
 7. Restore database using given default mysql database file `database.sql`.
 8. Try run on your browser or just `php -S 127.0.0.1:8000` for PHP-built-in-server.
 
-## Default CSS Framework
-
-MVCSTACK using [TailwindCSS](https://tailwindcss.com/) as default CSS Framework. This framework is installed using `npm` and can use `@apply` function for pre-build classes.
-
-## Default Javascript Framework
-
-MVCSTACK using [AlpineJS](https://github.com/alpinejs/alpine) as default javascript framework.
-
-## Default Fonts & Icons
-1. MVCSTACK using google font `Inter Tight` for sans, `Lora` for serif, `Overpass Mono` as mono as default font-family.
-2. MVCSTACK using `Hero Icons` as default icon family
-
 ## Simple but reliable
 #### Easy access model eloquent and relationship
 ```php
 // UserModel
-public function Profile()
-{
-    // return $this->hasOne('target-model-name', 'target-column', 'source-column');
+public function profile () {
+    // hasOne(modal-name, target-model-column, current-model-column)
+    // hasOne will continue get all related method
     return $this->hasOne('ProfileModel', 'user_id', 'id');
 }
 
-public function Students()
-{
-    // return $this->hasMany('target-model-name', 'target-column', 'source-column');
-    return $this->hasMany('ProfileModel', 'user_id', 'id');
+public function students () {
+    // hasMany(modal-name, target-model-column, current-model-column)
+    // hasMany will continue get all related method
+    return $this->hasMany('StudentModel', 'user_id', 'id');
+}
+
+public function staff () {
+    // hasOneOnly(modal-name, target-model-column, current-model-column)
+    // hasOneOnly will only get target classes data with ignoring their methods
+    return $this->hasOneOnly('StaffModel', 'user_id', 'id');
+}
+
+public function classes () {
+    // hasManyOnly(modal-name, target-model-column, current-model-column)
+    // hasManyOnly will only get target classes data with ignoring their methods
+    return $this->hasManyOnly('ClassModel', 'user_id', 'id');
 }
 ```
 You can access `profile` from `users` model.
 ```php
 <?php foreach($users as $user): ?>
-    <p>First Name: <?=$user->getProfile?></p>
+    <p>First Name: <?=$user->profile->fullname?></p>
 <?php endforeach; ?>
 ```
 
 #### Component solution for repeatable design. This component is stackable
 On your `view` page
 ```php
-// With Content
-<?php $modal_trigger = new Component('buttons.modal-trigger', ['class' => 'button primary']) ?>
-    Open Modal
-<?php $modal_trigger->close() ?>
+// When you need to have slot
+<?php $button = new Elem('button.primary', ['id' => 'edit-button']) ?>
+    Edit
+<?php $button->close() ?>
 
-// Without Content
-<?php $navbar = new Component('nav.topbar'); $navbar->close() ?>
+// When you dont need to have slot
+<?php $navbar = new Elem('nav.topbar'); $navbar->close() ?>
 ```
 
-On your `components/buttons/model-trigger.php` page
+On your `components/button/primary.php` page
 ```html
 <button 
     type="button" 
-    class="transition duration-300 ease-in-out focus:outline-none <?= $class ?>">
-    @content
+    class="transition duration-300 ease-in-out focus:outline-none"
+    id="<?=$id?>">
+    @slot
 </button>
 ```
