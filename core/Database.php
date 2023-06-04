@@ -28,25 +28,25 @@ class Database
         return $result;
     }
 
-    public static function rawQuery($sql, $break=false) {
+    public static function rawQuery($sql) {
         $result = self::execute($sql);
         $rows = [];
         if ($result and $result->num_rows > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                static::$relationship = self::get_relationship();
-                if (count(self::$relationship) > 0 and !$break) {
-                    foreach (self::$relationship as $method) {
-                        $class = get_called_class();
-                        $model = new $class;
-                        $model->row = (object)$row;
-                        $row[$method] = self::format($model->$method());
-                        $rows[] = (object)$row;
-                    }
-                } else {
-                    $rows[] = (object)$row;
-                }
+                $rows[] = (object)$row;
             }
         }
+        return $rows;
+    }
+
+    public static function rawQueryFirst($sql) {
+        $result = self::execute($sql);
+        $rows = [];
+        if ($result and $result->num_rows > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $rows = (object)$row;
+        }
+
         return $rows;
     }
 
@@ -69,8 +69,8 @@ class Database
                         $model = new $class;
                         $model->row = (object)$row;
                         $row[$method] = self::format($model->$method());
-                        $rows[] = (object)$row;
                     }
+                    $rows[] = (object)$row;
                 } else {
                     $rows[] = (object)$row;
                 }
@@ -92,8 +92,8 @@ class Database
                         $model = new $class;
                         $model->row = (object)$row;
                         $row[$method] = self::format($model->$method());
-                        $rows[] = (object)$row;
                     }
+                    $rows[] = (object)$row;
                 } else {
                     $rows[] = (object)$row;
                 }
@@ -115,8 +115,9 @@ class Database
                     $model = new $class;
                     $model->row = (object)$row;
                     $row[$method] = self::format($model->$method());
-                    $rows = (object)$row;
+										 
                 }
+                $rows = (object)$row;
             } else {
                 $rows = (object)$row;
             }
@@ -136,7 +137,9 @@ class Database
         if (self::execute($sql)) {
             $id = mysqli_insert_id(self::$connection);
             $class = get_called_class();
-            return $class::where('id', $id)->first(true);
+            $model = new $class;
+            $primary_key = (isset($model->primary_key)) ? $model->primary_key : 'id';
+            return $class::where($primary_key, $id)->first(true);
         }
         return false;
     }
@@ -152,27 +155,27 @@ class Database
     }
 
     public static function where($column, $value) {
-        if (!empty($column) and !empty($value)) static::$where_clause .= (empty(static::$where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
+        if ($column != "" and $value != "") static::$where_clause .= (empty(static::$where_clause)) ? "`$column` = '$value'" : " AND `$column` = '$value'";
         return new static;
     }
 
     public static function whereRaw($raw) {
-        if (!empty($raw)) static::$where_clause .= (empty(static::$where_clause)) ? $raw : " AND " . $raw;
+        if ($raw != "") static::$where_clause .= (empty(static::$where_clause)) ? $raw : " AND " . $raw;
         return new static;
     }
 
     public static function whereOr($column, $value) {
-        if (!empty($column) and !empty($value)) static::$where_clause .= " OR `$column` = '$value'";
+        if ($column != "" and $value != "") static::$where_clause .= " OR `$column` = '$value'";
         return new static;
     }
 
     public static function whereOrRaw($raw) {
-        if (!empty($raw)) static::$where_clause .= (empty(static::$where_clause)) ? $raw : " OR " . $raw;
+        if ($raw != "") static::$where_clause .= (empty(static::$where_clause)) ? $raw : " OR " . $raw;
         return new static;
     }
 
     public static function orderBy($column, $order)  {
-        if (!empty($column) and !empty($order)) static::$order_clause .= (empty(static::$order_clause)) ? "`$column` $order" : ", `$column` $order";
+        if ($column != "" and $order != "") static::$order_clause .= (empty(static::$order_clause)) ? "`$column` $order" : ", `$column` $order";
         return new static;
     }
 
