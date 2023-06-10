@@ -66,6 +66,27 @@
                     </div>
                 </div>
             </div>
+
+            <div class="space-y-8">
+                <div class="flex space-x-2">
+                    <div class="w-full max-w-md">
+                        <p>Profile Picture</p>
+                    </div>
+                    <div class="w-full max-w-lg flex">
+                        <div class="w-1/3 flex-none flex-center">
+                            <img src="<?=auth()->default_picture_link()?>" class="w-28 h-28 rounded-full object-cover" id="dp-preview"/>
+                        </div>
+                        <form method="post" class="w-full space-y-3 flex flex-col" enctype="multipart/form-data">
+                            <div class="h-full">
+                                <input type="file" name="profile_picture" id="profile_picture" class="form-control text-sm px-4 py-2 rounded" onchange="previewImage(event)" required/>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" name="update_profile_picture" class="btn-primary px-4 py-2 text-sm">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 <?php $layout->close() ?>
