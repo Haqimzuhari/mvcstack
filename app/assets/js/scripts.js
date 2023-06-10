@@ -3,4 +3,11 @@ if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
 }
 
-var password_inputs = document.querySelectorAll('input[type="password"]')
+function previewImage (event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+        var output = document.getElementById('dp-preview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
