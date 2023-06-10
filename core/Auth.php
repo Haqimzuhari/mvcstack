@@ -18,13 +18,13 @@ class Auth {
     }
 
     public function default_picture_link () {
-        $profile_picture_path = "images/profile-pictures/";
+        $profile_picture_path = storage("dp/");
         $default_link = "https://api.dicebear.com/6.x/bottts/svg?seed=";
 
         if ($this->user()) {
             $profile_picture = $this->user()->profile->picture;
             $profile_fullname = $this->user()->profile->fullname;
-            return ($profile_picture) ? asset($profile_picture_path . $profile_picture) : $default_link . $profile_fullname;
+            return ($profile_picture) ? $profile_picture_path . $profile_picture : $default_link . $profile_fullname;
         }
         return $default_link . uniqid();
         
