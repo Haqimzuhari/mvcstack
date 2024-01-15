@@ -1,9 +1,9 @@
 tailwind.config = {
     theme: {
         fontFamily: {
-            'sans': ['Manrope'],
-            'serif': ['Bitter'],
-            'mono': ['Chivo Mono'],
+            'serif': ['Vollkorn'],
+            'sans': ['Bricolage Grotesque'],
+            'mono': ['Spline Sans Mono']
         }
     }
 }

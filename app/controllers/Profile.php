@@ -40,13 +40,14 @@ class Profile extends Controller
             $picture_tmp = $profile_picture_input["tmp_name"];
             $picture_name = auth()->user()->id . "_" . uniqid() . "_" . basename($profile_picture_input["name"]);
             $save_file_fullpath = $save_to . DS . $picture_name;
-            if (move_uploaded_file($picture_tmp, $save_file_fullpath)) {
+            try {
+                move_uploaded_file($picture_tmp, $save_file_fullpath);
                 if (auth()->user()->profile->picture != "" and file_exists($save_to . DS . auth()->user()->profile->picture)) unlink($save_to . DS . auth()->user()->profile->picture);
                 ProfileModel::where("user_id", auth()->user()->id)->update([
                     "picture" => $picture_name,
                 ])->save();
                 Toast::flash("success", "Profile picture updated");
-            } else {
+            } catch (Exception $e) {
                 Toast::flash("danger", "Failed to update profile picture");
             }
         }

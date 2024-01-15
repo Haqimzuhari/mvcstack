@@ -1,33 +1,27 @@
-<nav class="fixed w-80 top-0 bottom-0 left-0 bg-white p-4 flex flex-col space-y-10">
-    <div class="flex-none">
-        <div class="flex items-center space-x-4 px-6">
-            <div class="w-14 h-14 rounded-full bg-zinc-100 overflow-hidden">
-                <img src="<?=auth()->default_picture_link()?>" class="w-full h-full object-cover"/>
-            </div>
-            
-            <div>
-                <p class="font-semibold text-xl">Welcome,</p>
-                <p class="font-light"><?=(auth()->check()) ? auth()->user()->profile->fullname : ''?></p>
+<nav class="fixed inset-y-0 left-0 flex-none w-64 space-y-2 bg-white border-r border-zinc-200">
+    <div class="flex items-center h-12 px-4">
+        <a href="<?= route(DEFAULT_AUTH_ROUTE) ?>" class="text-lg font-semibold"><?= TITLE ?></a>
+    </div>
+    <div class="grid grid-cols-1 gap-10 py-4">
+        <div class="flex flex-col px-4 space-y-1">
+            <p class="text-xs font-light text-neutral-300">Menu</p>
+            <div class="flex flex-col space-y-2">
+                <a href="<?= route('dashboard') ?>" class="flex items-center px-4 py-2.5 space-x-3 transition rounded-lg hover:text-neutral-900 hover:bg-zinc-100 text-neutral-500 bg-white">
+                    <i class="fa-solid fa-cube text-sm"></i>
+                    <p class="text-sm font-medium">Dashboard</p>
+                </a>
             </div>
         </div>
-    </div>
-
-    <div class="h-full">
-        <a href="<?=route('dashboard')?>" class="flex-start space-x-4 p-4 rounded text-zinc-500 transition-default hover:bg-indigo-100 hover:text-indigo-800">
-            <span class="w-10 flex-none text-center"><i class="fa-solid fa-fire"></i></span>
-            <p class="flex-grow font-semibold">Dashboard</p>
-        </a>
-    </div>
-
-    <div class="flex-none flex flex-col justify-end">
-        <a href="<?=route('profile')?>" class="flex-start space-x-4 p-4 rounded text-zinc-500 transition-default hover:bg-indigo-100 hover:text-indigo-800">
-            <span class="w-10 flex-none text-center"><i class="fa-solid fa-user-astronaut"></i></span>
-            <p class="flex-grow font-semibold">Profile</p>
-        </a>
-
-        <a href="<?=route('logout')?>" class="flex-start space-x-4 p-4 rounded text-zinc-500 transition-default hover:bg-indigo-100 hover:text-indigo-800">
-            <span class="w-10 flex-none text-center"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
-            <p class="flex-grow font-semibold">Log out</p>
-        </a>
+        <?php if (auth()->user()->isAdmin): ?>
+            <div class="flex flex-col px-4 space-y-1">
+                <p class="text-xs font-light text-neutral-300">Admin</p>
+                <div class="flex flex-col space-y-2">
+                    <a href="<?= route('users') ?>" class="flex items-center px-4 py-2.5 space-x-3 transition rounded-lg hover:text-neutral-900 hover:bg-zinc-100 text-neutral-500 bg-white">
+                        <i class="fa-solid fa-user-group text-sm"></i>
+                        <p class="text-sm font-medium">Users</p>
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </nav>

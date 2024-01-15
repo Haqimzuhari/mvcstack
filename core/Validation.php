@@ -44,7 +44,7 @@ class Validation {
 
         $data = $model::where($column, $this->inputs[$this->field])->first();
         if ($data) {
-            Toast::flash('warning', ucwords($column) . " must be unique");
+            Toast::flash('warning', ucwords($column) . " already registered. Please use different ". ucwords($column));
             return false;
         } else {
             return true;
