@@ -1,11 +1,6 @@
-<?php $layout = new Elem('layout.auth') ?>
+<?php $layout = new Elem('layout.auth', ['page_name'=>'Profile']) ?>
     <div class="space-y-2">
-        <section class="bg-white rounded-lg p-4">
-            <p class="text-2xl font-bold">Profile</p>
-            <p class="font-light">Manage your profile information</p>
-        </section>
-        
-        <section class="bg-white rounded-lg p-4 space-y-10">
+        <section class="bg-white rounded-lg p-4 space-y-10 ring-1 ring-inset ring-zinc-200">
             <div>
                 <p class="text-lg font-semibold">Account Information</p>
             </div>
@@ -18,9 +13,9 @@
                     </div>
                     <div class="w-full max-w-lg">
                         <form method="post" class="space-y-3">
-                            <input type="email" name="email" id="email" class="form-control text-sm px-4 py-2 rounded" placeholder="Email Address" value="<?=$this->user->email?>" required/>
+                            <input type="email" name="email" id="email" class="block text-sm w-full px-4 py-2.5 placeholder-gray-300 transition bg-zinc-50 border rounded-xl outline-none appearance-none focus:ring-4 focus:bg-white hover:bg-white border-zinc-300 hover:border-zinc-600 focus:border-indigo-600 focus:ring-indigo-200" placeholder="Email Address" value="<?=$this->user->email?>" required />
                             <div class="flex justify-end">
-                                <button type="submit" name="update_email" class="btn-primary px-4 py-2 text-sm">Update</button>
+                                <button type="submit" name="update_email" class="px-4 py-2.5 text-center text-white transition rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold">Update</button>
                             </div>
                         </form>
                     </div>
@@ -33,10 +28,10 @@
                     </div>
                     <div class="w-full max-w-lg">
                         <form method="post" class="space-y-3">
-                            <input type="password" name="new_password" id="new_password" class="form-control text-sm px-4 py-2 rounded" placeholder="New Password" required/>
-                            <input type="password" name="confirm_new_password" id="confirm_new_password" class="form-control text-sm px-4 py-2 rounded" placeholder="Re-type New Password" required/>
+                            <input type="password" name="new_password" id="new_password" class="block text-sm w-full px-4 py-2.5 placeholder-gray-300 transition bg-zinc-50 border rounded-xl outline-none appearance-none focus:ring-4 focus:bg-white hover:bg-white border-zinc-300 hover:border-zinc-600 focus:border-indigo-600 focus:ring-indigo-200" placeholder="New Password" required/>
+                            <input type="password" name="confirm_new_password" id="confirm_new_password" class="block text-sm w-full px-4 py-2.5 placeholder-gray-300 transition bg-zinc-50 border rounded-xl outline-none appearance-none focus:ring-4 focus:bg-white hover:bg-white border-zinc-300 hover:border-zinc-600 focus:border-indigo-600 focus:ring-indigo-200" placeholder="Re-type New Password" required/>
                             <div class="flex justify-end">
-                                <button type="submit" name="update_password" class="btn-primary px-4 py-2 text-sm">Update</button>
+                                <button type="submit" name="update_password" class="px-4 py-2.5 text-center text-white transition rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold">Update</button>
                             </div>
                         </form>
                     </div>
@@ -44,7 +39,7 @@
             </div>
         </section>
         
-        <section class="bg-white rounded-lg p-4 space-y-10">
+        <section class="bg-white rounded-lg p-4 space-y-10 ring-1 ring-inset ring-zinc-200">
             <div>
                 <p class="text-lg font-semibold">Personal Information</p>
             </div>
@@ -57,17 +52,16 @@
                     </div>
                     <div class="w-full max-w-lg">
                         <form method="post" class="space-y-3">
-                            <input type="text" name="first_name" id="first_name" class="form-control text-sm px-4 py-2 rounded" placeholder="First Name" value="<?=$this->user->profile->first_name?>" required/>
-                            <input type="text" name="last_name" id="last_name" class="form-control text-sm px-4 py-2 rounded" placeholder="Last Name" value="<?=$this->user->profile->last_name?>" required/>
+                            <input type="text" name="first_name" id="first_name" class="block text-sm w-full px-4 py-2.5 placeholder-gray-300 transition bg-zinc-50 border rounded-xl outline-none appearance-none focus:ring-4 focus:bg-white hover:bg-white border-zinc-300 hover:border-zinc-600 focus:border-indigo-600 focus:ring-indigo-200" placeholder="First Name" value="<?=$this->user->profile->name?>" required/>
                             <div class="flex justify-end">
-                                <button type="submit" name="update_personal" class="btn-primary px-4 py-2 text-sm">Update</button>
+                                <button type="submit" name="update_personal" class="px-4 py-2.5 text-center text-white transition rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold">Update</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-8">
+            <!-- <div class="space-y-8">
                 <div class="flex space-x-2">
                     <div class="w-full max-w-md">
                         <p>Profile Picture</p>
@@ -86,7 +80,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </section>
     </div>
 <?php $layout->close() ?>

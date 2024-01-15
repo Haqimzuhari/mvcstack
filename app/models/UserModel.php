@@ -4,7 +4,7 @@ class UserModel extends Model
     protected $table_name = "users";
 
     public function profile() {
-        return $this->hasOne('ProfileModel', 'user_id', 'id');
+        return $this->hasOneOnly('ProfileModel', 'user_id', 'id');
     }
 
     public function isAdmin() {

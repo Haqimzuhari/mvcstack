@@ -1,28 +1,24 @@
-<?php $layout = new Elem('layout.auth') ?>
+<?php $layout = new Elem('layout.auth', ['page_name' => 'Dashboard']) ?>
     <div class="space-y-2">
-        <section class="bg-white rounded-lg p-4">
-            <p class="text-2xl font-bold">Dashboard</p>
-        </section>
-
-        <section class="bg-white rounded-lg p-4">
-            <div class="space-y-4">
+        <section class="bg-white rounded-lg p-2">
+            <div class="space-y-4 rounded-xl">
                 <p class="font-bold">Staff List Status</p>
-                <table>
+                <table class="w-full text-sm">
                     <tr class="header">
-                        <th class="text-sm w-10"></th>
-                        <th class="text-sm">Staff</th>
-                        <th class="text-sm">Status</th>
-                        <th class="text-sm w-20"></th>
+                        <td class="px-4 py-1 w-10"></td>
+                        <td class="px-4 py-1">Staff</td>
+                        <td class="px-4 py-1">Status</td>
+                        <td class="px-4 py-1 w-20"></td>
                     </tr>
                     <tbody>
-                        <tr class="row">
-                            <td class="text-sm">1</td>
-                            <td class="text-sm">
+                        <tr class="hover:bg-slate-50 transition ">
+                            <td class="px-4 py-1">1</td>
+                            <td class="px-4 py-1">
                                 <p class="font-semibold">Jonathan Gambler</p>
                                 <p class="text-zinc-500 text-xs">Software Engineer</p>
                             </td>
-                            <td class="text-sm">On Leave until 9 June 2023</td>
-                            <td class="text-sm text-right">
+                            <td class="px-4 py-1">On Leave until 9 June 2023</td>
+                            <td class="px-4 py-1 text-right">
                                 <div>
                                     <?php $trigger = new Elem('modal.trigger', ['id'=>'modal_example_1']) ?>
                                         <button type="button" class="link-secondary">More</button>

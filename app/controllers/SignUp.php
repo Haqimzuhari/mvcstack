@@ -1,12 +1,12 @@
 <?php
-class Register extends Controller
+class SignUp extends Controller
 {
     public function __construct() {
         if(auth()->check()) return redirect(DEFAULT_AUTH_ROUTE);
     }
     
     public function Index() {
-        if (request()->has('register')) {
+        if (request()->has('sign_up')) {
             $validate = request()->validate([
                 'email' => 'unique:UserModel,email',
                 'password' => 'confirm:password_confirmation',
@@ -27,6 +27,6 @@ class Register extends Controller
             }
         }
         
-        $this->view('register.index');
+        $this->view('sign-up.index');
     }
 }
