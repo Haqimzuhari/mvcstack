@@ -25,7 +25,7 @@ class Request {
         return False;
     }
 
-    public function only($only) {
+    public function only(... $only) {
         $filtered = [];
         foreach ($_POST as $key => $value) {
             if (in_array($key, $only)) {

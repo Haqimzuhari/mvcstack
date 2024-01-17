@@ -31,13 +31,13 @@
     <link href="<?= asset('css/styles.css') ?>" rel="stylesheet">
 
     <!-- Fontawesome -->
-    <script src="https://kit.fontawesome.com/83c9a2d543.js" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" href= "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css" >
 
     <!-- Page title -->
     <title><?= $title ?? TITLE ?></title>
 </head>
 
-<body class="bg-slate-100 text-neutral-800=">
+<body class="text-neutral-900 bg-white">
     @slot
 
     <!-- Toast notification -->

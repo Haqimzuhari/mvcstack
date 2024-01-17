@@ -159,6 +159,11 @@ class Database
         return new static;
     }
 
+    public static function whereNot($column, $value) {
+        if ($column != "" and $value != "") static::$where_clause .= (empty(static::$where_clause)) ? "`$column` != '$value'" : " AND `$column` != '$value'";
+        return new static;
+    }
+
     public static function whereRaw($raw) {
         if ($raw != "") static::$where_clause .= (empty(static::$where_clause)) ? $raw : " AND " . $raw;
         return new static;
