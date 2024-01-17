@@ -13,12 +13,12 @@ class SignUp extends Controller
             ]);
             
             if ($validate) {
-                $user_inputs = request()->only(['email']);
+                $user_inputs = request()->only('email');
                 $user_inputs['password'] = md5(request()->input('password'));
                 $user_inputs['role'] = 2;
                 $user = UserModel::create($user_inputs);
 
-                $profile_inputs = request()->only(['first_name', 'last_name']);
+                $profile_inputs = request()->only('name');
                 $profile_inputs['user_id'] = $user->id;
                 ProfileModel::create($profile_inputs);
 

@@ -29,7 +29,7 @@ class Profile extends Controller
         }
 
         if (request()->has('update_personal')) {
-            $personal_inputs = request()->only(['first_name', 'last_name']);
+            $personal_inputs = request()->only('name');
             ProfileModel::where('user_id', auth()->user()->id)->update($personal_inputs)->save();
             Toast::flash('success', 'Personal details updated');
         }

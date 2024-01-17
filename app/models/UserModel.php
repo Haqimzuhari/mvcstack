@@ -11,5 +11,7 @@ class UserModel extends Model
         return (in_array($this->row->role, [1])) ? true : false;
     }
 
-
+    public function nameNoSpace() {
+        return strtolower(str_replace(" ", "", $this->row->profile->name));
+    }
 }

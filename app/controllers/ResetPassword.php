@@ -21,7 +21,6 @@ class ResetPassword extends Controller
                     Toast::flash('success', 'Password reset success', 'Please login using new password');
                     return redirect(DEFAULT_NON_AUTH_ROUTE);
                 }
-
                 Toast::flash('warning', 'We cannot found your account', 'Please make sure you have registered with us');
             }
         }

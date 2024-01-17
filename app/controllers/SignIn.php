@@ -7,7 +7,7 @@ class SignIn extends Controller
     
     public function Index() {
         if (request()->has('sign_in')) {
-            if (auth()->attempt(request()->only(['email', 'password']))) {
+            if (auth()->attempt(request()->only('email', 'password'))) {
                 return redirect();
             }
         }
