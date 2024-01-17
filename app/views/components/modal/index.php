@@ -28,8 +28,8 @@
                     <button 
                         type="button" 
                         class="w-6 h-6 flex-center transition-default bg-zinc-100 hover:bg-zinc-300 text-zinc-400 hover:text-zinc-800 rounded-full" 
-                        x-on:click="modal=false, bsd(false)">
-                            <i class="fa-solid fa-xmark text-xs"></i>
+                        x-on:click="modal=false">
+                            <i class="las la-times text-md"></i>
                     </button>
                 </div>
             </div>

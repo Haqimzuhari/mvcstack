@@ -1,67 +1,30 @@
 <style type="text/tailwindcss">
     @layer utilities {
-        .transition-default {
-            @apply transition duration-300 ease-in-out;
-        }
-        .transition-fast {
-            @apply transition duration-100 ease-in-out;
+        .dropdown-link {
+            @apply flex items-center w-full px-6 py-1 space-x-2 text-sm text-left transition text-neutral-900 hover:text-neutral-500 flex-nowrap whitespace-nowrap;
         }
 
-        .flex-center {
-            @apply flex items-center justify-center;
+
+        .table-header {
+            @apply bg-zinc-50 font-light text-neutral-500 p-4;
         }
-        .flex-start {
-            @apply flex items-center justify-start;
-        }
-        .flex-end {
-            @apply flex items-center justify-end;
+        .table-action-trigger {
+            @apply w-6 h-6 overflow-hidden flex justify-center items-center hover:bg-zinc-200 transition rounded;
         }
 
-        .flex-col-center {
-            @apply flex flex-col items-center justify-center;
+
+
+        .input-label {
+            @apply block text-sm leading-6 text-neutral-500;
         }
-        .flex-col-default {
-            @apply flex flex-col;
-        }
-        .flex-col-start {
-            @apply flex flex-col items-start justify-start;
-        }
-        .flex-col-end {
-            @apply flex flex-col items-end justify-start;
+        .input-field {
+            @apply block text-sm w-full px-4 py-2.5 placeholder-gray-300 transition bg-zinc-50 border rounded-xl outline-none appearance-none focus:ring-4 focus:bg-white hover:bg-white border-zinc-300 hover:border-zinc-600 focus:border-indigo-600 focus:ring-indigo-200;
         }
 
-        .form-control {
-            @apply bg-zinc-100 w-full;
-        }
 
-        .btn-primary {
-            @apply transition-default bg-indigo-500 hover:bg-indigo-400 text-white text-center rounded font-semibold;
-        }
 
-        .link-primary {
-            @apply transition-default underline decoration-2 text-indigo-600 hover:text-indigo-400;
-        }
-        .link-secondary {
-            @apply transition-default underline decoration-2 text-zinc-800 hover:text-zinc-600;
-        }
-
-        table {
-            @apply w-full table-auto;
-        }
-        tr.header {
-            @apply border-b-2 border-zinc-100;
-        }
-        th {
-            @apply text-left p-4 font-normal text-zinc-400;
-        }
-        tbody {
-            @apply divide-y divide-zinc-100;
-        }
-        tr.row {
-            @apply hover:bg-zinc-50 transition-default;
-        }
-        td {
-            @apply p-4;
+        .button-primary {
+            @apply px-4 py-2.5 text-center text-white transition rounded-xl bg-zinc-800 hover:bg-zinc-700;
         }
     }
 </style>
